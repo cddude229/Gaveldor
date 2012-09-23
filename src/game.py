@@ -11,7 +11,7 @@ screenh = 600
 x=14
 y=10
 
-screen = pygame.display.set_mode([screenw,screenh])
+screen = pygame.display.set_mode([screenw,screenh+screenh/y])
 pygame.display.set_caption('Gaveldor')
 
 #font = pygame.font.Font(None, 24)
@@ -27,9 +27,9 @@ spaces = pygame.sprite.RenderPlain()
 for i in range(x):
     for j in range(y):
         if i%2==0:
-            s=Space(i*screenw/x,j*screenh/y,i,j)
+            s=Space(i*screenw/x-i*screenw/x/4,j*screenh/y,i,j)#-j*screenh/y/3,i,j)
         else:
-            s=Space(i*screenw/x,int((j+.5)*screenh/y),i,j+1)
+            s=Space(i*screenw/x-i*screenw/x/4,int((j+.5)*screenh/y),i,j)#-j*screenh/y/3),i,j+1)
         spaces.add(s)
 
 for i in spaces:
