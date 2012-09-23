@@ -6,7 +6,7 @@ white = [255,255,255]
 screenw = 900
 screenh = 600
 
-x=14
+x=14gity
 y=10
 class Board(pygame.sprite.Sprite):
     def __init__(self):
