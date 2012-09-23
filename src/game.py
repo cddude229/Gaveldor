@@ -1,6 +1,7 @@
 import pygame
 from board import Board
 from board import Space
+from state import State
 
 black = [0,0,0]
 white = [255,255,255]
@@ -23,6 +24,8 @@ board = pygame.sprite.RenderPlain()
 b = Board()
 board.add(b)
 
+gs = State(x,y)
+
 spaces = pygame.sprite.RenderPlain()
 for i in range(x):
     for j in range(y):
@@ -32,9 +35,10 @@ for i in range(x):
             s=Space(i*screenw/x-i*screenw/x/4,int((j+.5)*screenh/y),i,j)#-j*screenh/y/3),i,j+1)
         spaces.add(s)
 
+#finds which spaces are occupied
 for i in spaces:
-    if i.x==3:
-        i.update(2)
+    if not getPiece(i.x,i.y)==None:
+        i.update(getPiece(i.x,i.y))
 
 done = False
 gameover = False
