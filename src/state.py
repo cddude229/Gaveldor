@@ -35,6 +35,3 @@ class State:
             return "water"
 
         return this.terrain[x][y]
-
-
-State(3, 5)
