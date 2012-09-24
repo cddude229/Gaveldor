@@ -116,8 +116,11 @@ while done == False:
 
         for i in spaces:
             if i.piece!=None:
-              i.health = font.render(str(i.piece.remainingHealth),True,white)
-              screen.blit(i.health,[i.xpos+3/2*i.x3,i.ypos+2*i.y3])
+                i.health = font.render(str(i.piece.remainingHealth),True,white)
+                if i.piece.player==1:
+                    screen.blit(i.health,[i.xpos+1.5*i.x3,i.ypos+i.y3])
+                else:
+                    screen.blit(i.health,[i.xpos+1.5*i.x3,i.ypos+4.5*i.y3])                    
         pygame.display.flip()
 
 pygame.quit()
