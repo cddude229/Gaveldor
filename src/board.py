@@ -4,6 +4,7 @@ from state import State
 black = [0,0,0]
 white = [255,255,255]
 
+
 class Board(pygame.sprite.Sprite):
     def __init__(self,screenw,screenh,x,y):
         pygame.sprite.Sprite.__init__(self)
@@ -57,5 +58,5 @@ class Space(pygame.sprite.Sprite):
           arrow_img = pygame.image.load('res/tiles/arrows.png').convert_alpha()
           arrow_img = pygame.transform.scale(arrow_img,\
                             (int(self.screenw/self.boardx),int(self.screenh/self.boardy*2)))
-          arrow_img.get_rect(center=(self.xpos,self.ypos))
+          arrow_img.get_rect(center=self.rect.center)#(self.xpos,self.ypos))
           self.image.blit(arrow_img, arrow_img.get_rect())

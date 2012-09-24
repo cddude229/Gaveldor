@@ -12,7 +12,9 @@ rows=11
 screen = pygame.display.set_mode([screenw-screenw/4+32,screenh+screenh/rows])
 pygame.display.set_caption('Gaveldor')
 
-#font = pygame.font.Font(None, 24)
+pygame.init()
+
+font = pygame.font.Font(None, 24)
 #font2 = pygame.font.Font(None, 50)
 
 clock = pygame.time.Clock()
@@ -87,12 +89,17 @@ while done == False:
                   new_dir = dirs.index((click[0],click[1]))
                   selected_piece.direction = new_dir
                   for i in spaces: i.dir_sel = False
-                  turn_stage = 'attack'
-              if turn_stage == 'attack': # if, not elif, so that turn ends immediately if there are no pieces to attack
+                  if selected_piece.getValidAttacks() != []:
+                      turn_stage = 'attack'
+                  else:
+                      gs.toggleTurn()
+                      selected_piece = None
+                      turn_stage = 'piece_sel'
+              elif turn_stage == 'attack':
                 if selected_piece.getValidAttacks() != []:
-                  if selected_piece.isValidAttack(click[0],click[1]): # if statement above causes problems... 
+                  if selected_piece.isValidAttack(click[0],click[1]): 
                     target = gs.getPiece(click[0],click[1])
-                    target.loseHealth(selected_piece.attackPower)
+                    selected_piece.attack(target)
                 gs.toggleTurn()
                 selected_piece = None
                 turn_stage = 'piece_sel'  
@@ -102,6 +109,8 @@ while done == False:
           valid_moves = selected_piece.getValidMoves()
         else: valid_moves = []
 
+        gs.player1.clearDeadPieces()
+        gs.player2.clearDeadPieces()
         for i in spaces:
           loc = (i.x,i.y)
           if loc in valid_moves: 
@@ -111,11 +120,17 @@ while done == False:
             if turn_stage == 'dir_sel': i.dir_sel = True
             else: i.dir_sel = False
           i.update(gs.getPiece(i.x,i.y))
-        gs.player1.clearDeadPieces()
-        gs.player2.clearDeadPieces()
         #button.draw(b.image)
         spaces.draw(b.image)
         board.draw(screen)
+
+        for i in spaces:
+            if i.piece!=None:
+                i.health = font.render(str(i.piece.remainingHealth),True,white)
+                if i.piece.player==1:
+                    screen.blit(i.health,[i.xpos+1.5*i.x3,i.ypos+i.y3])
+                else:
+                    screen.blit(i.health,[i.xpos+1.5*i.x3,i.ypos+4.5*i.y3])                    
         pygame.display.flip()
 
 pygame.quit()

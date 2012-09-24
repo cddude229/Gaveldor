@@ -1,12 +1,12 @@
 from helper import *
 from piece import Piece
 
-class Infantry(Piece):
+class Cavalry(Piece):
     def __init__(self, player, x, y, dir):
-        Piece.__init__(self, player, x, y, dir, 1, 3, "i")
+        Piece.__init__(self, player, x, y, dir, 1, 4, "c")
         if self.player == 1: player_char = 'a'
         else: player_char = 'b'
-        self.imageFile = "res/tiles/infantry_" + player_char + ".png"
+        self.imageFile = "../res/tiles/cavalry_" + player_char + ".png"
 
     def attack(self, piece):
         power = self.attackPower
@@ -18,18 +18,37 @@ class Infantry(Piece):
         piece.loseHealth(power)
 
     def getValidMoves(self):
-        ret = [ # Static list is easy
+        ret = [
+            # One space away
             (self.x, self.y+2),
             (self.x, self.y-2),
             (self.x-1, self.y-1),
             (self.x-1, self.y+1),
             (self.x+1, self.y-1),
-            (self.x+1, self.y+1)
+            (self.x+1, self.y+1),
+
+            # Two spaces away
+            (self.x, self.y+4),
+            (self.x, self.y-4),
+
+            (self.x+1, self.y+3),
+            (self.x+1, self.y-3),
+            (self.x-1, self.y+3),
+            (self.x-1, self.y-3),
+
+            (self.x-2, self.y),
+            (self.x+2, self.y),
+
+            (self.x+2, self.y-2),
+            (self.x+2, self.y+2),
+            (self.x-2, self.y-2),
+            (self.x-2, self.y+2)
         ]
 
         ret = filterValidSpots(ret, Piece.getState().getWidth(), Piece.getState().getHeight())
         ret = filterBlockedSpots(ret, Piece.getState())
         ret.append((self.x, self.y))
+
         return ret
 
     def getValidAttacks(self):
