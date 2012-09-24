@@ -4,6 +4,7 @@ from state import State
 black = [0,0,0]
 white = [255,255,255]
 
+
 class Board(pygame.sprite.Sprite):
     def __init__(self,screenw,screenh,x,y):
         pygame.sprite.Sprite.__init__(self)
@@ -45,6 +46,7 @@ class Space(pygame.sprite.Sprite):
         if self.piece != None: 
           self.image = pygame.image.load(self.piece.imageFile).convert_alpha()
           self.image = pygame.transform.rotate(self.image, -60*self.piece.direction)
+
         elif self.highlighted: self.image = pygame.image.load('../res/tiles/highlighted.png').convert_alpha()
         else: self.image = pygame.image.load('../res/tiles/blank.png').convert_alpha()
         self.image = pygame.transform.scale(self.image, (self.screenw/self.boardx, self.screenh/self.boardy*2))

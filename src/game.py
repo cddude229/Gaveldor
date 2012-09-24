@@ -12,7 +12,9 @@ rows=11
 screen = pygame.display.set_mode([screenw-screenw/4+32,screenh+screenh/rows])
 pygame.display.set_caption('Gaveldor')
 
-#font = pygame.font.Font(None, 24)
+pygame.init()
+
+font = pygame.font.Font(None, 24)
 #font2 = pygame.font.Font(None, 50)
 
 clock = pygame.time.Clock()
@@ -100,17 +102,22 @@ while done == False:
           valid_moves = selected_piece.getValidMoves()
         else: valid_moves = []
 
+        gs.player1.clearDeadPieces()
+        gs.player2.clearDeadPieces()
         for i in spaces:
           loc = (i.x,i.y)
           if loc in valid_moves: 
             i.highlighted = True
           else: i.highlighted = False
           i.update(gs.getPiece(i.x,i.y))
-        gs.player1.clearDeadPieces()
-        gs.player2.clearDeadPieces()
         #button.draw(b.image)
         spaces.draw(b.image)
         board.draw(screen)
+
+        for i in spaces:
+            if i.piece!=None:
+              i.health = font.render(str(i.piece.remainingHealth),True,white)
+              screen.blit(i.health,[i.xpos+3/2*i.x3,i.ypos+2*i.y3])
         pygame.display.flip()
 
 pygame.quit()
