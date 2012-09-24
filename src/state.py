@@ -1,3 +1,4 @@
+from player import Player
 class State:
     """
     Board squares invariants:
@@ -28,8 +29,8 @@ class State:
 
     	return None
 
-   	def getAllPieces(self):
-   		return self.getPlayer(1).getPieces() + self.getPlayer(2).getPieces()
+    def getAllPieces(self):
+   	return self.getPlayer(1).getPieces() + self.getPlayer(2).getPieces()
 
     def getTerrain(self, x, y):
     	# Determine which terrain type (if any) exists at (x, y)
