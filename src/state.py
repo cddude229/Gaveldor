@@ -28,6 +28,10 @@ class State:
         self.width = width
         self.height = height
 
+    def toggleTurn(self):
+      if self.currentTurn == 1: self.currentTurn = 2
+      else: self.currentTurn = 1
+
     def getHeight(self):
         return self.height
 

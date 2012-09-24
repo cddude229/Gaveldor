@@ -7,7 +7,9 @@ class Infantry(Piece):
         self.attackPower = 1
         self.remainingHealth = 3
         self.maxHealth = 3
-        self.imageFile = "res/tiles/infantry_" + self.player + ".png"
+        if self.player == 1: player_char = 'a'
+        else: player_char = 'b'
+        self.imageFile = "res/tiles/infantry_" + player_char + ".png"
 
     def getValidMoves(self):
         ret = [ # Static list is easy

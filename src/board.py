@@ -32,14 +32,19 @@ class Space(pygame.sprite.Sprite):
         self.piece=None
         self.x=xcoord
         self.y=ycoord
-        self.image = pygame.image.load(tile).convert_alpha()
+        self.xpos = xpos
+        self.ypos = ypos
+        self.image = pygame.image.load('res/tiles/blank.png').convert_alpha()
         self.image = pygame.transform.scale(self.image,(screenw/boardx,screenh/boardy*2))
         self.rect = self.image.get_rect()
         self.rect.topleft = [xpos,ypos]
+        self.highlighted = False
+
     def update(self,piece):
-        self.piece=piece
-        if self.piece != None:
-            self.image = pygame.image.load(piece.imageFile).convert_alpha()
-        else:
-            self.image = pygame.image.load('res/tiles/blank.png').convert_alpha()
-        self.image = pygame.transform.scale(self.image,(self.screenw/self.boardx,self.screenh/self.boardy*2))
+        self.piece = piece
+        if self.piece != None: 
+          self.image = pygame.image.load(self.piece.imageFile).convert_alpha()
+          self.image = pygame.transform.rotate(self.image, -60*self.piece.direction)
+        elif self.highlighted: self.image = pygame.image.load('res/tiles/highlighted.png').convert_alpha()
+        else: self.image = pygame.image.load('res/tiles/blank.png').convert_alpha()
+        self.image = pygame.transform.scale(self.image, (self.screenw/self.boardx, self.screenh/self.boardy*2))

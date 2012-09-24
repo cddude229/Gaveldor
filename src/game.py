@@ -6,10 +6,10 @@ from piece import Piece
 screenw = 900
 screenh = 660
 
-x=7
-y=11
+cols=7
+rows=11
 
-screen = pygame.display.set_mode([screenw-screenw/4+32,screenh+screenh/y])
+screen = pygame.display.set_mode([screenw-screenw/4+32,screenh+screenh/rows])
 pygame.display.set_caption('Gaveldor')
 
 #font = pygame.font.Font(None, 24)
@@ -19,99 +19,93 @@ clock = pygame.time.Clock()
 attack = False
 
 board = pygame.sprite.RenderPlain()
-b = Board(screenw,screenh,x,y)
+b = Board(screenw,screenh,cols,rows)
 board.add(b)
 
 #button = pygame.sprite.RenderPlain()
-#but = Button(screenw,screenh,x,y)
+#but = Button(screenw,screenh,cols,rows)
 #button.add(but)
 
-gs = State(x,y)
+gs = State(cols,rows)
 Piece.setState(gs)
 
 spaces = pygame.sprite.RenderPlain()
 #sets up board
-for i in xrange(x):
-    for j in xrange(y/2+1):
+for i in xrange(cols):
+    for j in xrange(rows/2+1):
         if i%2==0:
-            s=Space(screenw,screenh,x,y,i*screenw/x-i*screenw/x/4,2*j*screenh/y,i,j*2)
+            s=Space(screenw,screenh,cols,rows,i*screenw/cols-i*screenw/cols/4,2*j*screenh/rows,i,j*2)
         else:
-            if j < y/2:
-              s=Space(screenw,screenh,x,y,i*screenw/x-i*screenw/x/4,2*int((j+.5)*screenh/y),i,j*2+1)
+            if j < rows/2:
+              s=Space(screenw,screenh,cols,rows,i*screenw/cols-i*screenw/cols/4,2*int((j+.5)*screenh/rows),i,j*2+1)
         spaces.add(s)
-
-#finds which spaces are occupied
-for i in spaces:
-    if gs.getPiece(i.x,i.y) != None:
-        i.update(gs.getPiece(i.x,i.y))
 
 done = False
 gameover = False
 
+turn_stage = 'piece_sel' # stages: piece_select, move, dir_sel, attack
+selected_piece = None
+
 pygame.init()
 
-while done==False:
-    while gameover==False:
+while done == False:
+    while gameover == False:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                done=True
-                gameover=True
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                x1,y1=pygame.mouse.get_pos()
-                if x1>(x+2)*screenw/x-(x+2)*screenw/x/4 and y1>screenh/2 and y1<screenh/2+50:
-                    attack=True
-                startx = x1/(3*screenw/x/4)
-                if startx%2==0:
-                    start=(startx,y1/(screenh/y*2)*2)
-                else:
-                    start=(startx,(y1-screenh/y/2)/(screenh/y*2)*2+1)
+                done = True
+                gameover = True
+            turn = gs.currentTurn
             if event.type == pygame.MOUSEBUTTONUP:
-                x2,y2=pygame.mouse.get_pos()
-                endx = x2/(3*screenw/x/4)
-                if endx%2==0:
-                    end=(endx,y2/(screenh/y*2)*2)
-                else:
-                    end=(endx,(y2-screenh/y/2)/(screenh/y*2)*2+1)
-                if not gs.getPiece(start[0],start[1])==None:
-                    p = gs.getPiece(start[0],start[1])
-                    if p.isValidMove(end[0],end[1]):
-                        p.moveTo(end[0],end[1])
-                        for i in spaces:
-                            if i.x==start[0] and i.y==start[1]:
-                                i.update(None)
-        while attack == True:
-            for e in pygame.event.get():
-                if e.type == pygame.QUIT:
-                    done=True
-                    gameover=True
-                    attack=False
-                if e.type == pygame.MOUSEBUTTONDOWN:
-                    x1,y1=pygame.mouse.get_pos()
-                    if x1>(x+2)*screenw/x-(x+2)*screenw/x/4 and y1>screenh/2 and y1<screenh/2+50:
-                        attack=False
-                    startx = x1/(3*screenw/x/4)
-                    if startx%2==0:
-                        start=(startx,y1/(screenh/y*2)*2)
-                    else:
-                        start=(startx,(y1-screenh/y/2)/(screenh/y*2)*2+1)
-                if e.type == pygame.MOUSEBUTTONUP:
-                    x2,y2=pygame.mouse.get_pos()
-                    endx = x2/(3*screenw/x/4)
-                    if endx%2==0:
-                        end=(endx,y2/(screenh/y*2)*2)
-                    else:
-                        end=(endx,(y2-screenh/y/2)/(screenh/y*2)*2+1)
-                    if not gs.getPiece(start[0],start[1])==None:
-                        p = gs.getPiece(start[0],start[1])
-                        if p.isValidAttack(end[0],end[1]):
-                            p.attack(gs.getPiece(end[0],end[1]))
-                            print "hi"
-                            attack = False
-                                     
+              x,y = pygame.mouse.get_pos()
+              clickx = x/(3*screenw/cols/4)
+              if clickx % 2 == 0:
+                click = (clickx, y/(screenh/rows*2)*2)
+              else:
+                click = (clickx, (y-screenh/rows/2)/(screenh/rows*2)*2+1)
+              
+              if turn_stage == 'piece_sel':
+                piece = gs.getPiece(click[0],click[1])
+                if piece != None and gs.currentTurn == piece.player:
+                  selected_piece = piece
+                  turn_stage = 'move'
+                else: 
+                  selected_piece = None
+                  turn_stage = 'piece_sel'
+              elif turn_stage == 'move':
+                if selected_piece.isValidMove(click[0],click[1]):
+                  selected_piece.moveTo(click[0],click[1])
+                  turn_stage = 'dir_sel'
+              elif turn_stage == 'dir_sel':
+                dirs = [(selected_piece.x, selected_piece.y-2),
+                        (selected_piece.x+1, selected_piece.y-1),
+                        (selected_piece.x+1, selected_piece.y+1),
+                        (selected_piece.x, selected_piece.y+2),
+                        (selected_piece.x-1, selected_piece.y+1),
+                        (selected_piece.x-1, selected_piece.y-1)]
+                if (click[0],click[1]) in dirs: 
+                  new_dir = dirs.index((click[0],click[1]))
+                  selected_piece.direction = new_dir
+                  turn_stage = 'attack'
+              elif turn_stage == 'attack':
+                if selected_piece.getValidAttacks() != []:
+                  if selected_piece.isValidAttack(click[0],click[1]):
+                    target = gs.getPiece(click[0],click[1])
+                    target.loseHealth(1)
+                gs.toggleTurn()
+                selected_piece = None
+                turn_stage = 'piece_sel'  
+                  
             
+        if selected_piece != None and turn_stage == 'move': 
+          valid_moves = selected_piece.getValidMoves()
+        else: valid_moves = []
+
         for i in spaces:
-            if not gs.getPiece(i.x,i.y)==None:
-                i.update(gs.getPiece(i.x,i.y))
+          loc = (i.x,i.y)
+          if loc in valid_moves: 
+            i.highlighted = True
+          else: i.highlighted = False
+          i.update(gs.getPiece(i.x,i.y))
         gs.player1.clearDeadPieces()
         gs.player2.clearDeadPieces()
         #button.draw(b.image)
