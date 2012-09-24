@@ -7,6 +7,7 @@ class Infantry(Piece):
         self.attackPower = 1
         self.remainingHealth = 3
         self.maxHealth = 3
+        self.imageFile = "infantry.png"
 
     def getValidMoves(self):
         li = [ # Static list is easy

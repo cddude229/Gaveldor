@@ -9,7 +9,7 @@ def filterValidSpots(li, width, height):
             continue
         if x >= width or y >= height:
             continue
-        ret.push((x, y))
+        ret.append((x, y))
 
     return ret
 
@@ -20,6 +20,6 @@ def filterBlockedSpots(li, state):
     for (x, y) in li:
         if state.getPiece(x, y) == None:
             # Open space, push on array
-            ret.push((x, y))
+            ret.append((x, y))
 
     return ret

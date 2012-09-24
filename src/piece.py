@@ -4,6 +4,7 @@ class Piece:
         self.attackPower = None
         self.remainingHealth = None
         self.maxHealth = None
+        self.imageFile = ""
         self.direction = dir
         self.x = x
         self.y = y
