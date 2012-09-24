@@ -3,10 +3,7 @@ from piece import Piece
 
 class Infantry(Piece):
     def __init__(self, player, x, y, dir):
-        Piece.__init__(self, player, x, y, dir)
-        self.attackPower = 1
-        self.remainingHealth = 3
-        self.maxHealth = 3
+        Piece.__init__(self, player, x, y, dir, 1, 3)
         if self.player == 1: player_char = 'a'
         else: player_char = 'b'
         self.imageFile = "../res/tiles/infantry_" + player_char + ".png"
@@ -42,6 +39,7 @@ class Infantry(Piece):
         # Filter to only spots on board and that are blocked
         ret = filterValidSpots(ret, Piece.getState().getWidth(), Piece.getState().getHeight())
         ret = filterUnblockedSpots(ret, Piece.getState())
+        ret = filterMyPieces(ret, Piece.getState(), self.player)
 
         # NOTE: Currently possible to attack your own troops
         

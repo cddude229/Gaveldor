@@ -3,10 +3,7 @@ from piece import Piece
 
 class Archer(Piece):
     def __init__(self, player, x, y, dir):
-        Piece.__init__(self, player, x, y, dir)
-        self.attackPower = 1
-        self.remainingHealth = 4
-        self.maxHealth = 4
+        Piece.__init__(self, player, x, y, dir, 1, 2)
         if self.player == 1: player_char = 'a'
         else: player_char = 'b'
         self.imageFile = "../res/tiles/archer_" + player_char + ".png"
@@ -70,6 +67,7 @@ class Archer(Piece):
         # Filter to only spots on board and that are blocked
         ret = filterValidSpots(ret, Piece.getState().getWidth(), Piece.getState().getHeight())
         ret = filterUnblockedSpots(ret, Piece.getState())
+        ret = filterMyPieces(ret, Piece.getState(), self.player)
 
         # NOTE: Currently possible to attack your own troops
         

@@ -1,10 +1,10 @@
 class Piece:
     state = None
-    def __init__(self, player, x, y, dir):
+    def __init__(self, player, x, y, dir, attackPower, startingHP):
         self.player = player
-        self.attackPower = None
-        self.remainingHealth = None
-        self.maxHealth = None
+        self.attackPower = attackPower
+        self.remainingHealth = startingHP
+        self.maxHealth = startingHP
         self.imageFile = ""
         self.direction = dir
         self.x = x

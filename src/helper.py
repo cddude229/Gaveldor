@@ -34,3 +34,14 @@ def filterUnblockedSpots(li, state):
             ret.append((x, y))
 
     return ret
+
+def filterMyPieces(li, state, pid):
+    # filter out pieces in these spots that have this playerid
+
+    ret = []
+    for (x, y) in li:
+        p = state.getPiece(x, y)
+        if p != None and p.player != pid:
+            ret.append((x, y))
+
+    return ret
