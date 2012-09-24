@@ -1,5 +1,3 @@
-import pygame
-
 class Piece:
     def __init__(self):
         self.attackPower = None
@@ -8,6 +6,7 @@ class Piece:
         self.direction = None
         self.x = None
         self.y = None
+        self.state = None
         pass
     def isValidMove(self,x,y):
         return (x, y) in self.getValidMoves()
@@ -25,3 +24,7 @@ class Piece:
         # Does not need to validate the move
         self.x = x
         self.y = y
+    def getState(self):
+        return self.state
+    def setState(self, state):
+        self.state = state

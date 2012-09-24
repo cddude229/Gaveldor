@@ -5,6 +5,6 @@ class Player:
         self.id = id
         self.pieces = []
     def hasPiecesLeft(self):
-        pass
+        return len(pieces) > 0
     def getPieces(self):
         return self.pieces
