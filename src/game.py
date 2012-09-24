@@ -45,6 +45,7 @@ gameover = False
 
 turn_stage = 'piece_sel' # stages: piece_select, move, dir_sel, attack
 selected_piece = None
+#arrow_img = None
 
 pygame.init()
 
@@ -85,12 +86,13 @@ while done == False:
                 if (click[0],click[1]) in dirs: 
                   new_dir = dirs.index((click[0],click[1]))
                   selected_piece.direction = new_dir
+                  for i in spaces: i.dir_sel = False
                   turn_stage = 'attack'
-              elif turn_stage == 'attack':
+              if turn_stage == 'attack': # if, not elif, so that turn ends immediately if there are no pieces to attack
                 if selected_piece.getValidAttacks() != []:
-                  if selected_piece.isValidAttack(click[0],click[1]):
+                  if selected_piece.isValidAttack(click[0],click[1]): # if statement above causes problems... 
                     target = gs.getPiece(click[0],click[1])
-                    target.loseHealth(1)
+                    target.loseHealth(selected_piece.attackPower)
                 gs.toggleTurn()
                 selected_piece = None
                 turn_stage = 'piece_sel'  
@@ -105,6 +107,9 @@ while done == False:
           if loc in valid_moves: 
             i.highlighted = True
           else: i.highlighted = False
+          if selected_piece != None and loc == (selected_piece.x, selected_piece.y):
+            if turn_stage == 'dir_sel': i.dir_sel = True
+            else: i.dir_sel = False
           i.update(gs.getPiece(i.x,i.y))
         gs.player1.clearDeadPieces()
         gs.player2.clearDeadPieces()

@@ -34,17 +34,28 @@ class Space(pygame.sprite.Sprite):
         self.y=ycoord
         self.xpos = xpos
         self.ypos = ypos
-        self.image = pygame.image.load('../res/tiles/blank.png').convert_alpha()
+        self.image = pygame.image.load('res/tiles/blank.png').convert_alpha()
         self.image = pygame.transform.scale(self.image,(screenw/boardx,screenh/boardy*2))
         self.rect = self.image.get_rect()
         self.rect.topleft = [xpos,ypos]
         self.highlighted = False
+        self.dir_sel = False
 
     def update(self,piece):
         self.piece = piece
         if self.piece != None: 
           self.image = pygame.image.load(self.piece.imageFile).convert_alpha()
-          self.image = pygame.transform.rotate(self.image, -60*self.piece.direction)
-        elif self.highlighted: self.image = pygame.image.load('../res/tiles/highlighted.png').convert_alpha()
-        else: self.image = pygame.image.load('../res/tiles/blank.png').convert_alpha()
-        self.image = pygame.transform.scale(self.image, (self.screenw/self.boardx, self.screenh/self.boardy*2))
+          self.image = pygame.transform.scale(self.image, (self.screenw/self.boardx, self.screenh/self.boardy*2))
+          self.image = pygame.transform.rotate(self.image, -60 * self.piece.direction)
+          self.rect = self.image.get_rect(center = self.rect.center)
+        else:
+          if self.highlighted: self.image = pygame.image.load('res/tiles/highlighted.png').convert_alpha()
+          else: self.image = pygame.image.load('res/tiles/blank.png').convert_alpha()
+          self.image = pygame.transform.scale(self.image, (self.screenw/self.boardx, self.screenh/self.boardy*2))
+          self.rect = self.image.get_rect(center = self.rect.center)
+        if self.dir_sel:
+          arrow_img = pygame.image.load('res/tiles/arrows.png').convert_alpha()
+          arrow_img = pygame.transform.scale(arrow_img,\
+                            (int(self.screenw/self.boardx),int(self.screenh/self.boardy*2)))
+          arrow_img.get_rect(center=(self.xpos,self.ypos))
+          self.image.blit(arrow_img, arrow_img.get_rect())
