@@ -9,7 +9,7 @@ class Infantry(Piece):
         self.maxHealth = 3
         if self.player == 1: player_char = 'a'
         else: player_char = 'b'
-        self.imageFile = "res/tiles/infantry_" + player_char + ".png"
+        self.imageFile = "../res/tiles/infantry_" + player_char + ".png"
 
     def getValidMoves(self):
         ret = [ # Static list is easy
