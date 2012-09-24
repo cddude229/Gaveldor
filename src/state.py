@@ -1,10 +1,10 @@
 class State:
-	"""
-	Board squares invariants:
-		1) Valid squares always have an even sum for their coordinates
-		2) Invalid squares will be "water" terrain (impassable to all)
-	"""
-    terrain = [[]] # 2D map of the terrain at place x
+    """
+    Board squares invariants:
+        1) Valid squares always have an even sum for their coordinates
+        2) Invalid squares will be "water" terrain (impassable to all)
+    """
+    terrain = [[]] # 2D map of the terrain at place x, y
 
     gameStatus = 0 # 0 = playing, 1,2 = who won, 3 = stalemate
     currentTurn = 1 # Whose turn is it?
@@ -41,7 +41,7 @@ class State:
 
         return self.terrain[x][y]
 
-     def getPlayer(self, id):
-     	if id == 1:
-     		return self.player1
-     	return self.player2
+    def getPlayer(self, id):
+        if id == 1:
+            return self.player1
+        return self.player2
