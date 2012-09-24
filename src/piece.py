@@ -10,14 +10,18 @@ class Piece:
         self.y = None
         pass
     def isValidMove(self,x,y):
-        pass
+        return (x, y) in self.getValidMoves()
     def getValidMoves(self):
         pass
     def getValidAttacks(self):
         pass
     def loseHealth(self, health):
-        pass
+        self.remainingHealth -= health
+        if self.remainingHealth < 0:
+            self.remainingHealth = 0
     def isAlive(self):
-        pass
+        return self.remainingHealth > 0
     def moveTo(self,x,y):
-        pass
+        # Does not need to validate the move
+        self.x = x
+        self.y = y
