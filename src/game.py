@@ -97,7 +97,7 @@ while done == False:
                 if selected_piece.getValidAttacks() != []:
                   if selected_piece.isValidAttack(click[0],click[1]):
                     target = gs.getPiece(click[0],click[1])
-                    target.loseHealth(1)
+                    selected_piece.attack(target)
                 gs.toggleTurn()
                 selected_piece = None
                 turn_stage = 'piece_sel'  
