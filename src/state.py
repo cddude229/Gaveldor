@@ -18,12 +18,12 @@ class State:
     height = 0
 
     def __init__(self, width, height):
-    	# Takes in the board width, height so arrays can be built
+        # Takes in the board width, height so arrays can be built
 
-    	self.terrain = [ [ (None, "water") [ (x+y)%2 ] for y in xrange(height) ] for x in xrange(width) ]
+        self.terrain = [ [ (None, "water") [ (x+y)%2 ] for y in xrange(height) ] for x in xrange(width) ]
 
-    	self.player1 = Player(1)
-    	self.player2 = Player(2)
+        self.player1 = Player(1)
+        self.player2 = Player(2)
 
         self.width = width
         self.height = height
@@ -39,18 +39,18 @@ class State:
         return self.width
 
     def getPiece(self, x, y):
-    	# Determine which piece (if any) exists at (x, y)
-    	for piece in self.getAllPieces():
-    		if piece.x == x and piece.y == y:
-    			return piece
+        # Determine which piece (if any) exists at (x, y)
+        for piece in self.getAllPieces():
+            if piece.x == x and piece.y == y:
+                return piece
 
-    	return None
+        return None
 
     def getAllPieces(self):
-   	return self.getPlayer(1).getPieces() + self.getPlayer(2).getPieces()
+        return self.getPlayer(1).getPieces() + self.getPlayer(2).getPieces()
 
     def getTerrain(self, x, y):
-    	# Determine which terrain type (if any) exists at (x, y)
+        # Determine which terrain type (if any) exists at (x, y)
         if x < 0 or y < 0:
             return "water"
 
