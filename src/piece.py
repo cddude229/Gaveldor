@@ -1,30 +1,40 @@
 class Piece:
-    def __init__(self):
+    state = None
+    def __init__(self, x, y, dir):
         self.attackPower = None
         self.remainingHealth = None
         self.maxHealth = None
-        self.direction = None
-        self.x = None
-        self.y = None
-        self.state = None
-        pass
+        self.direction = dir
+        self.x = x
+        self.y = y
+
     def isValidMove(self,x,y):
         return (x, y) in self.getValidMoves()
+
     def getValidMoves(self):
-        pass
+        pass # Implemented at next level
+
     def getValidAttacks(self):
-        pass
+        pass # Implemented at next level
+
     def loseHealth(self, health):
         self.remainingHealth -= health
         if self.remainingHealth < 0:
             self.remainingHealth = 0
+
     def isAlive(self):
         return self.remainingHealth > 0
-    def moveTo(self,x,y):
+
+    def moveTo(self, x, y):
         # Does not need to validate the move
         self.x = x
         self.y = y
-    def getState(self):
-        return self.state
-    def setState(self, state):
-        self.state = state
+
+    def faceDirection(self, dir):
+        self.direction = dir % 5
+
+    def getState(): # Static
+        return Piece.state
+
+    def setState(state): # Static
+        Piece.state = state
