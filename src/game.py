@@ -37,8 +37,8 @@ for i in range(x):
 
 #finds which spaces are occupied
 for i in spaces:
-    if not getPiece(i.x,i.y)==None:
-        i.update(getPiece(i.x,i.y))
+    if not gs.getPiece(i.x,i.y)==None:
+        i.update(gs.getPiece(i.x,i.y))
 
 done = False
 gameover = False
@@ -51,6 +51,13 @@ while done==False:
             if event.type == pygame.QUIT:
                 done=True
                 gameover=True
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                x1,y1=pygame.mouse.get_pos()
+                start = (x1/(screenw/x),y1/(screenh/y))
+                print start
+        for i in spaces:
+            if not gs.getPiece(i.x,i.y)==None:
+                i.update(gs.getPiece(i.x,i.y))
         spaces.draw(b.image)
         board.draw(screen)
         pygame.display.flip()
