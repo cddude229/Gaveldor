@@ -26,6 +26,7 @@ b = Board()
 board.add(b)
 
 gs = State(x,y)
+Piece.setState(gs)
 
 spaces = pygame.sprite.RenderPlain()
 for i in range(x):
