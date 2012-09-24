@@ -41,6 +41,10 @@ class Piece:
     def faceDirection(self, dir):
         self.direction = dir % 6
 
+    def attack(self, piece):
+        # Attack a specific piece
+        piece.loseHealth(self.attackPower)
+
     @staticmethod
     def getState():
         return Piece.state

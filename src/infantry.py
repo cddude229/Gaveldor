@@ -25,13 +25,14 @@ class Infantry(Piece):
         return ret
 
     def getValidAttacks(self):
-        ret = [ # Static list is easy
-            (self.x, self.y+2),
-            (self.x, self.y-2),
-            (self.x-1, self.y-1),
-            (self.x-1, self.y+1),
-            (self.x+1, self.y-1),
-            (self.x+1, self.y+1)]
+        ret = [ # Static list is easy.  Keep this sorted in order by direction
+            (self.x, self.y-2),   // 0
+            (self.x+1, self.y-1), // 1
+            (self.x+1, self.y+1), // 2
+            (self.x, self.y+2),   // 3
+            (self.x-1, self.y+1), // 4
+            (self.x-1, self.y-1)  // 5
+        ]
 
         # Get current dir + other two adjacent ones
         ret = [ret[self.direction],
@@ -45,6 +46,3 @@ class Infantry(Piece):
         # NOTE: Currently possible to attack your own troops
         
         return ret
-
-    def attack(self, p):
-        p.loseHealth(self.attackPower)
