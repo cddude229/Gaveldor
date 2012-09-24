@@ -22,9 +22,6 @@ class Piece:
     def getValidAttacks(self):
         pass # Implemented at next level
 
-    def attack(self, p):
-        pass # Implemented at next level
-
     def loseHealth(self, health):
         self.remainingHealth -= health
         if self.remainingHealth < 0:

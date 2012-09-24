@@ -1,24 +1,26 @@
 from helper import *
 from piece import Piece
 
-class Infantry(Piece):
+class Archer(Piece):
     def __init__(self, player, x, y, dir):
         Piece.__init__(self, player, x, y, dir)
         self.attackPower = 1
-        self.remainingHealth = 3
-        self.maxHealth = 3
+        self.remainingHealth = 4
+        self.maxHealth = 4
         if self.player == 1: player_char = 'a'
         else: player_char = 'b'
-        self.imageFile = "../res/tiles/infantry_" + player_char + ".png"
+        self.imageFile = "../res/tiles/archer_" + player_char + ".png"
 
     def getValidMoves(self):
-        ret = [ # Static list is easy
+        ret = [
+            # One space away
             (self.x, self.y+2),
             (self.x, self.y-2),
             (self.x-1, self.y-1),
             (self.x-1, self.y+1),
             (self.x+1, self.y-1),
-            (self.x+1, self.y+1)]
+            (self.x+1, self.y+1)
+        ]
 
         ret = filterValidSpots(ret, Piece.getState().getWidth(), Piece.getState().getHeight())
         ret = filterBlockedSpots(ret, Piece.getState())
@@ -34,10 +36,36 @@ class Infantry(Piece):
             (self.x-1, self.y-1)  # 5
         ]
 
+        ret2 = [
+            # Two spaces away
+            (self.x, self.y-4),   # 0
+            (self.x+1, self.y+3), # 0.5
+            (self.x+2, self.y-2), # 1
+            (self.x+2, self.y),   # 1.5
+            (self.x+2, self.y+2), # 2
+            (self.x+1, self.y-3), # 2.5
+            (self.x, self.y+4),   # 3
+            (self.x-2, self.y),   # 3.5
+            (self.x-2, self.y+2), # 4
+            (self.x-1, self.y-3), # 4.5
+            (self.x-2, self.y-2), # 5
+            (self.x-1, self.y+3)  # 5.5
+        ]
+
         # Get current dir + other two adjacent ones
-        ret = [ret[self.direction],
+        ret = [
+            # One square away
+            ret[self.direction],
             ret[(self.direction+1)%6],
-            ret[(self.direction-1)%6]]
+            ret[(self.direction-1)%6],
+
+            # Two squares away
+            ret2[self.direction*2],
+            ret2[(self.direction*2+1)%12],
+            ret2[(self.direction*2+2)%12],
+            ret2[(self.direction*2-1)%12],
+            ret2[(self.direction*2-2)%12],
+        ]
 
         # Filter to only spots on board and that are blocked
         ret = filterValidSpots(ret, Piece.getState().getWidth(), Piece.getState().getHeight())
