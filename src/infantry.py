@@ -18,7 +18,9 @@ class Infantry(Piece):
             (self.x+1, self.y+1)
         ]
 
-        return filterValidSpots(li, Piece.getState().getWidth(), Piece.getState().getHeight())
+        ret = filterValidSpots(ret, Piece.getState().getWidth(), Piece.getState().getHeight())
+        ret = filterBlockedSpots(ret, Piece.getState())
+        return ret
 
     def getValidAttacks(self):
         pass

@@ -8,7 +8,7 @@ class Piece:
         self.x = x
         self.y = y
 
-    def isValidMove(self,x,y):
+    def isValidMove(self, x, y):
         return (x, y) in self.getValidMoves()
 
     def getValidMoves(self):
