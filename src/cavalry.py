@@ -17,6 +17,7 @@ class Cavalry(Piece):
             (self.x-1, self.y+1),
             (self.x+1, self.y-1),
             (self.x+1, self.y+1),
+            (self.x, self.y),
 
             # Two spaces away
             (self.x, self.y+4),

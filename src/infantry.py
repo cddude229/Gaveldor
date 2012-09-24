@@ -15,7 +15,9 @@ class Infantry(Piece):
             (self.x-1, self.y-1),
             (self.x-1, self.y+1),
             (self.x+1, self.y-1),
-            (self.x+1, self.y+1)]
+            (self.x+1, self.y+1),
+            (self.x, self.y)
+        ]
 
         ret = filterValidSpots(ret, Piece.getState().getWidth(), Piece.getState().getHeight())
         ret = filterBlockedSpots(ret, Piece.getState())
