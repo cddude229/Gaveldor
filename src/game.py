@@ -87,7 +87,12 @@ while done == False:
                 if (click[0],click[1]) in dirs: 
                   new_dir = dirs.index((click[0],click[1]))
                   selected_piece.direction = new_dir
-                  turn_stage = 'attack'
+                  if selected_piece.getValidAttacks() != []:
+                      turn_stage = 'attack'
+                  else:
+                      gs.toggleTurn()
+                      selected_piece = None
+                      turn_stage = 'piece_sel'
               elif turn_stage == 'attack':
                 if selected_piece.getValidAttacks() != []:
                   if selected_piece.isValidAttack(click[0],click[1]):
