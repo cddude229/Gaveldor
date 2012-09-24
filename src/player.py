@@ -5,7 +5,7 @@ class Player:
         self.id = id
         self.pieces = []
         if id == 1:
-            self.pieces.push(Infantry(0, 0, 3))
+            self.pieces.append(Infantry(0, 0, 3))
         
     def hasPiecesLeft(self):
         return len(pieces) > 0
