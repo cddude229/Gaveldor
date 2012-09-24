@@ -26,12 +26,12 @@ class Infantry(Piece):
 
     def getValidAttacks(self):
         ret = [ # Static list is easy.  Keep this sorted in order by direction
-            (self.x, self.y-2),   // 0
-            (self.x+1, self.y-1), // 1
-            (self.x+1, self.y+1), // 2
-            (self.x, self.y+2),   // 3
-            (self.x-1, self.y+1), // 4
-            (self.x-1, self.y-1)  // 5
+            (self.x, self.y-2),   # 0
+            (self.x+1, self.y-1), # 1
+            (self.x+1, self.y+1), # 2
+            (self.x, self.y+2),   # 3
+            (self.x-1, self.y+1), # 4
+            (self.x-1, self.y-1)  # 5
         ]
 
         # Get current dir + other two adjacent ones
