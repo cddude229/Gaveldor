@@ -131,6 +131,12 @@ while done == False:
                     screen.blit(i.health,[i.xpos+1.5*i.x3,i.ypos+i.y3])
                 else:
                     screen.blit(i.health,[i.xpos+1.5*i.x3,i.ypos+4.5*i.y3])                    
+
+        for i in spaces:
+          if i.dir_sel:
+            arrow_img = pygame.image.load('res/tiles/arrows.png').convert_alpha()
+            arrow_img = pygame.transform.scale(arrow_img, (int(1.37*screenw/cols),int(1.37*screenh/rows*2)))
+            screen.blit(arrow_img,[i.xpos-20,i.ypos-20])
         pygame.display.flip()
 
 pygame.quit()
