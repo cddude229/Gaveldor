@@ -3,10 +3,7 @@ from piece import Piece
 
 class Cavalry(Piece):
     def __init__(self, player, x, y, dir):
-        Piece.__init__(self, player, x, y, dir)
-        self.attackPower = 1
-        self.remainingHealth = 4
-        self.maxHealth = 4
+        Piece.__init__(self, player, x, y, dir, 1, 4)
         if self.player == 1: player_char = 'a'
         else: player_char = 'b'
         self.imageFile = "../res/tiles/cavalry_" + player_char + ".png"
