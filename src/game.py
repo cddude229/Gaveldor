@@ -15,7 +15,11 @@ pygame.display.set_caption('Gaveldor')
 pygame.init()
 
 font = pygame.font.Font(None, 24)
-#font2 = pygame.font.Font(None, 50)
+font2 = pygame.font.Font(None, 50)
+
+attackPhase = font2.render("Attack Phase", True, white)
+movePhase = font2.render("Move Phase", True, white)
+turnPhase = font2.render("Turn Phase", True, white)
 
 clock = pygame.time.Clock()
 attack = False
@@ -77,6 +81,8 @@ while done == False:
                 if selected_piece.isValidMove(click[0],click[1]):
                   selected_piece.moveTo(click[0],click[1])
                   turn_stage = 'dir_sel'
+                  screen.blit(turnPhase, [screenw/2,screenh/2])
+                  clock.tick(1)
               elif turn_stage == 'dir_sel':
                 dirs = [(selected_piece.x, selected_piece.y-2),
                         (selected_piece.x+1, selected_piece.y-1),
@@ -89,10 +95,14 @@ while done == False:
                   selected_piece.direction = new_dir
                   if selected_piece.getValidAttacks() != []:
                       turn_stage = 'attack'
+                      screen.blit(attackPhase, [screenw/2,screenh/2])
+                      clock.tick(1)
                   else:
                       gs.toggleTurn()
                       selected_piece = None
                       turn_stage = 'piece_sel'
+                      screen.blit(movePhase, [screenw/2,screenh/2])
+                      clock.tick(1)
               elif turn_stage == 'attack':
                 if selected_piece.getValidAttacks() != []:
                   if selected_piece.isValidAttack(click[0],click[1]):
@@ -100,7 +110,9 @@ while done == False:
                     target.loseHealth(1)
                 gs.toggleTurn()
                 selected_piece = None
-                turn_stage = 'piece_sel'  
+                turn_stage = 'piece_sel'
+                screen.blit(movePhase, [screenw/2,screenh/2])
+                clock.tick(1)
                   
             
         if selected_piece != None and turn_stage == 'move': 
