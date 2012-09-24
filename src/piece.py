@@ -34,8 +34,8 @@ class Piece:
     def faceDirection(self, dir):
         self.direction = dir % 5
 
-    def getState(): # Static
+    def getState(self): # Static
         return Piece.state
 
-    def setState(state): # Static
+    def setState(self,state): # Static
         Piece.state = state
