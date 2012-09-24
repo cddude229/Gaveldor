@@ -2,6 +2,7 @@ import pygame
 from board import Board
 from board import Space
 from state import State
+from piece import Piece
 
 black = [0,0,0]
 white = [255,255,255]
@@ -35,6 +36,9 @@ for i in range(x):
             s=Space(i*screenw/x-i*screenw/x/4,int((j+.5)*screenh/y),i,j*2+1)#-j*screenh/y/3),i,j+1)
         spaces.add(s)
 
+#sets up board
+
+
 #finds which spaces are occupied
 for i in spaces:
     if not gs.getPiece(i.x,i.y)==None:
@@ -65,7 +69,10 @@ while done==False:
                     end=(endx,y2/(screenh/y)*2)
                 else:
                     end=(endx,(y2-screenh/y/2)/(screenh/y)*2+1)
-                print end
+            if not gs.getPiece(start(0),start(1))==None:
+                p = gs.getPiece(start(0),start(1))
+                if p.isValidMove(end(0),end(1)):
+                    p.moveTo(end(0),end(1))
             
         for i in spaces:
             if not gs.getPiece(i.x,i.y)==None:
