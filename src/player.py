@@ -5,9 +5,9 @@ class Player:
         self.id = id
         self.pieces = []
         if id == 1:
-            self.pieces.append(Infantry(0, 0, 3))
+            self.pieces.append(Infantry('a', 3, 1, 3))
         if id == 2:
-            self.pieces.append(Infantry(0, 6, 0))
+            self.pieces.append(Infantry('b', 3, 9, 0))
         
     def hasPiecesLeft(self):
         return len(self.pieces) > 0

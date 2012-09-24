@@ -3,50 +3,46 @@ from board import *
 from state import State
 from piece import Piece
 
-black = [0,0,0]
-white = [255,255,255]
-
 screenw = 900
-screenh = 600
+screenh = 660
 
-x=14
-y=20
+x=7
+y=11
 
-screen = pygame.display.set_mode([screenw,screenh+screenh/y])
+screen = pygame.display.set_mode([screenw-screenw/4+32,screenh+screenh/y])
 pygame.display.set_caption('Gaveldor')
 
 #font = pygame.font.Font(None, 24)
 #font2 = pygame.font.Font(None, 50)
 
 clock = pygame.time.Clock()
-attack=False
+attack = False
 
 board = pygame.sprite.RenderPlain()
-b = Board()
+b = Board(screenw,screenh,x,y)
 board.add(b)
 
-button = pygame.sprite.RenderPlain()
-but = Button()
-button.add(but)
+#button = pygame.sprite.RenderPlain()
+#but = Button(screenw,screenh,x,y)
+#button.add(but)
 
 gs = State(x,y)
 Piece.setState(gs)
 
 spaces = pygame.sprite.RenderPlain()
-for i in range(x):
-    for j in range(y/2+1):
-        if i%2==0:
-            s=Space(i*screenw/x-i*screenw/x/4,2*j*screenh/y,i,j*2)
-        else:
-            s=Space(i*screenw/x-i*screenw/x/4,2*int((j+.5)*screenh/y),i,j*2+1)
-        spaces.add(s)
-
 #sets up board
-
+for i in xrange(x):
+    for j in xrange(y/2+1):
+        if i%2==0:
+            s=Space(screenw,screenh,x,y,i*screenw/x-i*screenw/x/4,2*j*screenh/y,i,j*2)
+        else:
+            if j < y/2:
+              s=Space(screenw,screenh,x,y,i*screenw/x-i*screenw/x/4,2*int((j+.5)*screenh/y),i,j*2+1)
+        spaces.add(s)
 
 #finds which spaces are occupied
 for i in spaces:
-    if not gs.getPiece(i.x,i.y)==None:
+    if gs.getPiece(i.x,i.y) != None:
         i.update(gs.getPiece(i.x,i.y))
 
 done = False
@@ -83,7 +79,7 @@ while done==False:
                         for i in spaces:
                             if i.x==start[0] and i.y==start[1]:
                                 i.update(None)
-        while attack==True:
+        while attack == True:
             for e in pygame.event.get():
                 if e.type == pygame.QUIT:
                     done=True
@@ -118,7 +114,7 @@ while done==False:
                 i.update(gs.getPiece(i.x,i.y))
         gs.player1.clearDeadPieces()
         gs.player2.clearDeadPieces()
-        button.draw(b.image)
+        #button.draw(b.image)
         spaces.draw(b.image)
         board.draw(screen)
         pygame.display.flip()

@@ -1,6 +1,7 @@
 class Piece:
     state = None
-    def __init__(self, x, y, dir):
+    def __init__(self, player, x, y, dir):
+        self.player = player
         self.attackPower = None
         self.remainingHealth = None
         self.maxHealth = None
