@@ -9,7 +9,15 @@ class Archer(Piece):
         self.imageFile = "../res/tiles/archer_" + player_char + ".png"
 
     def attack(self, piece):
-        piece.loseHealth(self.attackPower)
+        power = self.attackPower
+
+        # If opposing piece is cavalry, we do 2x damage
+        if piece.type == "c":
+            power *= 2
+
+        # Need to implement back attack
+
+        piece.loseHealth(power)
 
     def getValidMoves(self):
         ret = [
