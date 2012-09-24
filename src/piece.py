@@ -42,6 +42,9 @@ class Piece:
         # Attack a specific piece
         piece.loseHealth(self.attackPower)
 
+    def getPlayer(self):
+        return Piece.getState().getPlayer(self.player)
+
     @staticmethod
     def getState():
         return Piece.state
