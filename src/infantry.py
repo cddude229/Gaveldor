@@ -42,8 +42,11 @@ class Infantry(Piece):
 
         # Filter to only spots on board and that are blocked
         ret = filterValidSpots(ret, Piece.getState().getWidth(), Piece.getState().getHeight())
-        ret = filterUnblockedSpots(ret, state)
+        ret = filterUnblockedSpots(ret, Piece.getState())
 
         # NOTE: Currently possible to attack your own troops
         
         return ret
+
+    def attack(self, p):
+        p.loseHealth(self.attackPower)

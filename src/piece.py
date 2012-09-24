@@ -12,10 +12,16 @@ class Piece:
     def isValidMove(self, x, y):
         return (x, y) in self.getValidMoves()
 
+    def isValidAttack(self, x, y):
+        return (x, y) in self.getValidAttacks()
+
     def getValidMoves(self):
         pass # Implemented at next level
 
     def getValidAttacks(self):
+        pass # Implemented at next level
+
+    def attack(self, p):
         pass # Implemented at next level
 
     def loseHealth(self, health):
