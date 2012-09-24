@@ -1,6 +1,6 @@
 class Piece:
     state = None
-    def __init__(self, player, x, y, dir, attackPower, startingHP):
+    def __init__(self, player, x, y, dir, attackPower, startingHP, type):
         self.player = player
         self.attackPower = attackPower
         self.remainingHealth = startingHP
@@ -9,6 +9,7 @@ class Piece:
         self.direction = dir
         self.x = x
         self.y = y
+        self.type = type # "a" "c" "i" for archer, cavalry, infantry (respectively)
 
     def isValidMove(self, x, y):
         return (x, y) in self.getValidMoves()

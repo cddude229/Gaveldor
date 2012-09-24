@@ -3,7 +3,7 @@ from piece import Piece
 
 class Archer(Piece):
     def __init__(self, player, x, y, dir):
-        Piece.__init__(self, player, x, y, dir, 1, 2)
+        Piece.__init__(self, player, x, y, dir, 1, 2, "a")
         if self.player == 1: player_char = 'a'
         else: player_char = 'b'
         self.imageFile = "../res/tiles/archer_" + player_char + ".png"
