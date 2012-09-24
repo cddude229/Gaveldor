@@ -1,4 +1,5 @@
 from player import Player
+
 class State:
     """
     Board squares invariants:
@@ -13,6 +14,9 @@ class State:
     player1 = None
     player2 = None
 
+    width = 0
+    height = 0
+
     def __init__(self, width, height):
     	# Takes in the board width, height so arrays can be built
 
@@ -20,6 +24,15 @@ class State:
 
     	self.player1 = Player(1)
     	self.player2 = Player(2)
+
+        self.width = width
+        self.height = height
+
+    def getHeight(self):
+        return self.height
+
+    def getWidth(self):
+        return self.width
 
     def getPiece(self, x, y):
     	# Determine which piece (if any) exists at (x, y)
@@ -29,8 +42,8 @@ class State:
 
     	return None
 
-    def getAllPieces(self):
-   	return self.getPlayer(1).getPieces() + self.getPlayer(2).getPieces()
+   	def getAllPieces(self):
+   	    return self.getPlayer(1).getPieces() + self.getPlayer(2).getPieces()
 
     def getTerrain(self, x, y):
     	# Determine which terrain type (if any) exists at (x, y)
