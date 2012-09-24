@@ -61,6 +61,7 @@ class Cavalry(Piece):
         # Filter to only spots on board and that are blocked
         ret = filterValidSpots(ret, Piece.getState().getWidth(), Piece.getState().getHeight())
         ret = filterUnblockedSpots(ret, Piece.getState())
+        ret = filterMyPieces(ret, Piece.getState(), self.player)
 
         # NOTE: Currently possible to attack your own troops
         
