@@ -35,9 +35,9 @@ class Piece:
         self.direction = dir % 5
 
     @staticmethod
-    def getState(): # Static
+    def getState():
         return Piece.state
 
     @staticmethod
-    def setState(state): # Static
+    def setState(state):
         Piece.state = state
