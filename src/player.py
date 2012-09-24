@@ -1,4 +1,3 @@
-import pygame
 from infantry import Infantry
 
 class Player:
@@ -9,6 +8,16 @@ class Player:
             self.pieces.append(Infantry(0, 0, 3))
         
     def hasPiecesLeft(self):
-        return len(pieces) > 0
+        return len(self.pieces) > 0
+
     def getPieces(self):
         return self.pieces
+
+    def clearDeadPieces(self):
+        ret = []
+
+        for piece in self.pieces:
+            if piece.isAlive() == True:
+                ret.append(piece)
+
+        self.pieces = ret
