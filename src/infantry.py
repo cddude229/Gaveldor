@@ -1,4 +1,4 @@
-import helper
+from helper import *
 from piece import Piece
 
 class Infantry(Piece):
@@ -10,7 +10,7 @@ class Infantry(Piece):
         self.imageFile = "infantry.png"
 
     def getValidMoves(self):
-        li = [ # Static list is easy
+        ret = [ # Static list is easy
             (self.x, self.y+2),
             (self.x, self.y-2),
             (self.x-1, self.y-1),
@@ -24,4 +24,23 @@ class Infantry(Piece):
         return ret
 
     def getValidAttacks(self):
-        pass
+        ret = [ # Static list is easy
+            (self.x, self.y+2),
+            (self.x, self.y-2),
+            (self.x-1, self.y-1),
+            (self.x-1, self.y+1),
+            (self.x+1, self.y-1),
+            (self.x+1, self.y+1)
+        ]
+
+        ret = [
+            ret[self.direction],
+            ret[(self.direction+1)%6],
+            ret[(self.direction-1)%6]
+        ]
+
+        ret = filterValidSpots(ret, Piece.getState().getWidth(), Piece.getState().getHeight())
+
+        # Still need to filter unblocked spots
+        
+        return ret
