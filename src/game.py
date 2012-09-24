@@ -9,7 +9,7 @@ screenh = 660
 cols=7
 rows=11
 
-screen = pygame.display.set_mode([screenw-screenw/4+32,screenh+screenh/rows])
+screen = pygame.display.set_mode([screenw-screenw/4+32,screenh+screenh/rows+50])
 pygame.display.set_caption('Gaveldor')
 
 pygame.init()
@@ -51,6 +51,7 @@ gameover = False
 
 turn_stage = 'piece_sel' # stages: piece_select, move, dir_sel, attack
 selected_piece = None
+#arrow_img = None
 
 pygame.init()
 
@@ -93,6 +94,7 @@ while done == False:
                 if (click[0],click[1]) in dirs: 
                   new_dir = dirs.index((click[0],click[1]))
                   selected_piece.direction = new_dir
+                  for i in spaces: i.dir_sel = False
                   if selected_piece.getValidAttacks() != []:
                       turn_stage = 'attack'
                       screen.blit(attackPhase, [screenw/2,screenh/2])
@@ -105,9 +107,9 @@ while done == False:
                       clock.tick(1)
               elif turn_stage == 'attack':
                 if selected_piece.getValidAttacks() != []:
-                  if selected_piece.isValidAttack(click[0],click[1]):
+                  if selected_piece.isValidAttack(click[0],click[1]): 
                     target = gs.getPiece(click[0],click[1])
-                    target.loseHealth(1)
+                    selected_piece.attack(target)
                 gs.toggleTurn()
                 selected_piece = None
                 turn_stage = 'piece_sel'
@@ -126,6 +128,9 @@ while done == False:
           if loc in valid_moves: 
             i.highlighted = True
           else: i.highlighted = False
+          if selected_piece != None and loc == (selected_piece.x, selected_piece.y):
+            if turn_stage == 'dir_sel': i.dir_sel = True
+            else: i.dir_sel = False
           i.update(gs.getPiece(i.x,i.y))
         #button.draw(b.image)
         spaces.draw(b.image)
@@ -138,6 +143,12 @@ while done == False:
                     screen.blit(i.health,[i.xpos+1.5*i.x3,i.ypos+i.y3])
                 else:
                     screen.blit(i.health,[i.xpos+1.5*i.x3,i.ypos+4.5*i.y3])                    
+
+        for i in spaces:
+          if i.dir_sel:
+            arrow_img = pygame.image.load('res/tiles/arrows.png').convert_alpha()
+            arrow_img = pygame.transform.scale(arrow_img, (int(1.37*screenw/cols),int(1.37*screenh/rows*2)))
+            screen.blit(arrow_img,[i.xpos-20,i.ypos-20])
         pygame.display.flip()
 
 pygame.quit()
