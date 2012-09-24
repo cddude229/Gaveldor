@@ -18,6 +18,9 @@ class Piece:
     def loseHealth(self, health):
         pass
     def isAlive(self):
-        pass
+        if self.remainingHealth <= 0:
+            return True
+        else:
+            return False
     def moveTo(self,x,y):
         pass
