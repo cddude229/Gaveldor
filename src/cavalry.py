@@ -31,7 +31,7 @@ class Cavalry(Piece):
             (self.x-1, self.y-3),
 
             (self.x-2, self.y),
-            (self.x+2, self.y)
+            (self.x+2, self.y),
 
             (self.x+2, self.y-2),
             (self.x+2, self.y+2),
