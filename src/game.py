@@ -9,7 +9,7 @@ screenh = 660
 cols=7
 rows=11
 
-screen = pygame.display.set_mode([screenw-screenw/4+32,screenh+screenh/rows])
+screen = pygame.display.set_mode([screenw-screenw/4+32,screenh+screenh/rows+50])
 pygame.display.set_caption('Gaveldor')
 
 pygame.init()
