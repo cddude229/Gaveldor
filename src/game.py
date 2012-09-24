@@ -26,6 +26,7 @@ b = Board()
 board.add(b)
 
 gs = State(x,y)
+Piece.setState(gs)
 
 spaces = pygame.sprite.RenderPlain()
 for i in range(x):
@@ -69,10 +70,10 @@ while done==False:
                     end=(endx,y2/(screenh/y)*2)
                 else:
                     end=(endx,(y2-screenh/y/2)/(screenh/y)*2+1)
-                if not gs.getPiece(start(0),start(1))==None:
-                    p = gs.getPiece(start(0),start(1))
-                    if p.isValidMove(end(0),end(1)):
-                        p.moveTo(end(0),end(1))
+                if not gs.getPiece(start[0],start[1])==None:
+                    p = gs.getPiece(start[0],start[1])
+                    if p.isValidMove(end[0],end[1]):
+                        p.moveTo(end[0],end[1])
             
         for i in spaces:
             if not gs.getPiece(i.x,i.y)==None:

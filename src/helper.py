@@ -14,12 +14,23 @@ def filterValidSpots(li, width, height):
     return ret
 
 def filterBlockedSpots(li, state):
-    # Given a state class, remove blocked spots
+    # Given a state class, remove blocked spots (by pieces)
 
     ret = []
     for (x, y) in li:
         if state.getPiece(x, y) == None:
             # Open space, push on array
+            ret.append((x, y))
+
+    return ret
+
+def filterUnblockedSpots(li, state):
+    # Given a state class, remove unblocked spots
+
+    ret = []
+    for (x, y) in li:
+        if state.getPiece(x, y) != None:
+            # Closed space, push on array
             ret.append((x, y))
 
     return ret

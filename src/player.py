@@ -1,4 +1,5 @@
 import pygame
+from infantry import Infantry
 
 class Player:
     def __init__(self, id):
