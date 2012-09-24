@@ -32,7 +32,7 @@ class Piece:
         self.y = y
 
     def faceDirection(self, dir):
-        self.direction = dir % 5
+        self.direction = dir % 6
 
     @staticmethod
     def getState():

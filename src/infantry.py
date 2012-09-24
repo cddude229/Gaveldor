@@ -33,14 +33,17 @@ class Infantry(Piece):
             (self.x+1, self.y+1)
         ]
 
+        # Get current dir + other two adjacent ones
         ret = [
             ret[self.direction],
             ret[(self.direction+1)%6],
             ret[(self.direction-1)%6]
         ]
 
+        # Filter to only spots on board and that are blocked
         ret = filterValidSpots(ret, Piece.getState().getWidth(), Piece.getState().getHeight())
+        ret = filterUnblockedSpots(ret, state)
 
-        # Still need to filter unblocked spots
+        # NOTE: Currently possible to attack your own troops
         
         return ret
