@@ -8,6 +8,9 @@ class Infantry(Piece):
         else: player_char = 'b'
         self.imageFile = "../res/tiles/infantry_" + player_char + ".png"
 
+    def attack(self, piece):
+        piece.loseHealth(self.attackPower)
+
     def getValidMoves(self):
         ret = [ # Static list is easy
             (self.x, self.y+2),
@@ -15,12 +18,12 @@ class Infantry(Piece):
             (self.x-1, self.y-1),
             (self.x-1, self.y+1),
             (self.x+1, self.y-1),
-            (self.x+1, self.y+1),
-            (self.x, self.y)
+            (self.x+1, self.y+1)
         ]
 
         ret = filterValidSpots(ret, Piece.getState().getWidth(), Piece.getState().getHeight())
         ret = filterBlockedSpots(ret, Piece.getState())
+        ret.append((self.x, self.y))
         return ret
 
     def getValidAttacks(self):

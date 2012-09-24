@@ -22,6 +22,9 @@ class Piece:
     def getValidAttacks(self):
         pass # Implemented at next level
 
+    def attack(self, piece):
+        pass # Implemented at next level
+
     def loseHealth(self, health):
         self.remainingHealth -= health
         if self.remainingHealth < 0:
@@ -37,10 +40,6 @@ class Piece:
 
     def faceDirection(self, dir):
         self.direction = dir % 6
-
-    def attack(self, piece):
-        # Attack a specific piece
-        piece.loseHealth(self.attackPower)
 
     def getPlayer(self):
         return Piece.getState().getPlayer(self.player)

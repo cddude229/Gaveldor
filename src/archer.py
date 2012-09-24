@@ -8,6 +8,9 @@ class Archer(Piece):
         else: player_char = 'b'
         self.imageFile = "../res/tiles/archer_" + player_char + ".png"
 
+    def attack(self, piece):
+        piece.loseHealth(self.attackPower)
+
     def getValidMoves(self):
         ret = [
             # One space away
@@ -16,12 +19,12 @@ class Archer(Piece):
             (self.x-1, self.y-1),
             (self.x-1, self.y+1),
             (self.x+1, self.y-1),
-            (self.x+1, self.y+1),
-            (self.x, self.y)
+            (self.x+1, self.y+1)
         ]
 
         ret = filterValidSpots(ret, Piece.getState().getWidth(), Piece.getState().getHeight())
         ret = filterBlockedSpots(ret, Piece.getState())
+        ret.append((self.x, self.y))
         return ret
 
     def getValidAttacks(self):
