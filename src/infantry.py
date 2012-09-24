@@ -1,4 +1,5 @@
 import helper
+from helper import *
 from piece import Piece
 
 class Infantry(Piece):
@@ -10,7 +11,7 @@ class Infantry(Piece):
         self.imageFile = "infantry.png"
 
     def getValidMoves(self):
-        li = [ # Static list is easy
+        ret = [ # Static list is easy
             (self.x, self.y+2),
             (self.x, self.y-2),
             (self.x-1, self.y-1),
