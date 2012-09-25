@@ -60,6 +60,12 @@ while done == False:
             turn = gs.currentTurn
             if event.type == pygame.MOUSEBUTTONUP:
               x,y = pygame.mouse.get_pos()
+              if y >= screenh+screenh/rows:
+                if x >= 255 and x <= 405:
+                  gs.toggleTurn()
+                  selected_piece = None
+                  turn_stage = 'piece_sel'
+                  continue
               clickx = x/(3*screenw/cols/4)
               if clickx % 2 == 0:
                 click = (clickx, y/(screenh/rows*2)*2)
@@ -116,9 +122,9 @@ while done == False:
           if loc in valid_moves: 
             i.highlighted = True
           else: i.highlighted = False
+          i.dir_sel = False
           if selected_piece != None and loc == (selected_piece.x, selected_piece.y):
             if turn_stage == 'dir_sel': i.dir_sel = True
-            else: i.dir_sel = False
           i.update(gs.getPiece(i.x,i.y))
         #button.draw(b.image)
         spaces.draw(b.image)
@@ -141,6 +147,9 @@ while done == False:
         turn_tile_to_load = 'res/tiles/player_' + str(gs.currentTurn) + '_' + str(turn_stage) + '.png'
         turn_tile = pygame.image.load(turn_tile_to_load).convert_alpha()
         screen.blit(turn_tile, (0, screenh+screenh/rows))
+
+        end_turn = pygame.image.load('res/tiles/end_turn.png').convert_alpha()
+        screen.blit(end_turn, (255, screenh+screenh/rows))
         pygame.display.flip()
 
 pygame.quit()
