@@ -97,6 +97,7 @@ while done == False:
                       moveCounter+=1
                       if moveCounter==3:
                           gs.toggleTurn()
+                          moveCounter=0
                       selected_piece = None
                       turn_stage = 'piece_sel'
               elif turn_stage == 'attack':
@@ -107,6 +108,7 @@ while done == False:
                 moveCounter+=1
                 if moveCounter==3:
                     gs.toggleTurn()
+                    moveCounter=0
                 selected_piece = None
                 turn_stage = 'piece_sel'
                   
