@@ -138,7 +138,8 @@ while done == False:
             arrow_img = pygame.transform.scale(arrow_img, (int(1.5*screenw/cols),int(1.5*screenh/rows*2)))
             screen.blit(arrow_img,[i.xpos-31,i.ypos-29])
 
-        turn_tile = pygame.image.load('res/tiles/player_2_move.png').convert_alpha()
+        turn_tile_to_load = 'res/tiles/player_' + str(gs.currentTurn) + '_' + str(turn_stage) + '.png'
+        turn_tile = pygame.image.load(turn_tile_to_load).convert_alpha()
         screen.blit(turn_tile, (0, screenh+screenh/rows))
         pygame.display.flip()
 
