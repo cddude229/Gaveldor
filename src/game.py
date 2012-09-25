@@ -44,6 +44,7 @@ for i in xrange(cols):
               s=Space(screenw,screenh,cols,rows,i*screenw/cols-i*screenw/cols/4,2*int((j+.5)*screenh/rows),i,j*2+1)
         spaces.add(s)
 
+game_begun = False
 done = False
 gameover = False
 
@@ -62,6 +63,11 @@ while done == False:
             turn = gs.currentTurn
             if event.type == pygame.MOUSEBUTTONUP:
               x,y = pygame.mouse.get_pos()
+              if game_begun == False: 
+                if y >= screenh+screenh/rows: 
+                  screen.fill(black)
+                  game_begun = True
+                continue
               if y >= screenh+screenh/rows:
                 if x >= 255 and x <= 405:
                   gs.toggleTurn()
@@ -158,6 +164,16 @@ while done == False:
 
         end_turn = pygame.image.load('../res/tiles/end_turn.png').convert_alpha()
         screen.blit(end_turn, (255, screenh+screenh/rows))
+
+        moves_left = '../res/tiles/moves_left_' + str(3-moveCounter) + '.png'
+        turn_tile = pygame.image.load(moves_left).convert_alpha()
+        screen.blit(turn_tile, (410, screenh+screenh/rows))
+
+
+        if game_begun == False:
+          splash = pygame.image.load('../res/tiles/splash.png').convert_alpha()
+          screen.blit(splash, (0,0))
+
         pygame.display.flip()
 
 pygame.quit()
