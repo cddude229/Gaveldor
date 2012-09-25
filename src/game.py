@@ -135,8 +135,8 @@ while done == False:
         for i in spaces:
           if i.dir_sel:
             arrow_img = pygame.image.load('res/tiles/arrows.png').convert_alpha()
-            arrow_img = pygame.transform.scale(arrow_img, (int(1.37*screenw/cols),int(1.37*screenh/rows*2)))
-            screen.blit(arrow_img,[i.xpos-20,i.ypos-20])
+            arrow_img = pygame.transform.scale(arrow_img, (int(1.5*screenw/cols),int(1.5*screenh/rows*2)))
+            screen.blit(arrow_img,[i.xpos-31,i.ypos-29])
         pygame.display.flip()
 
 pygame.quit()
