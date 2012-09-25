@@ -6,7 +6,7 @@ class Infantry(Piece):
         Piece.__init__(self, player, x, y, dir, 1, 3, "i")
         if self.player == 1: player_char = 'a'
         else: player_char = 'b'
-        self.imageFile = "res/tiles/infantry_" + player_char + ".png"
+        self.imageFile = "../res/tiles/infantry_" + player_char + ".png"
 
     def attack(self, piece):
         power = self.attackPower

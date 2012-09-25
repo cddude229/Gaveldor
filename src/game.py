@@ -9,6 +9,8 @@ screenh = 660
 cols=7
 rows=11
 
+moveCounter=0;
+
 screen = pygame.display.set_mode([screenw-screenw/4+32,screenh+screenh/rows+50])
 pygame.display.set_caption('Gaveldor')
 
@@ -16,10 +18,6 @@ pygame.init()
 
 font = pygame.font.Font(None, 24)
 font2 = pygame.font.Font(None, 50)
-
-attackPhase = font2.render("Attack Phase", True, white)
-movePhase = font2.render("Move Phase", True, white)
-turnPhase = font2.render("Turn Phase", True, white)
 
 clock = pygame.time.Clock()
 attack = False
@@ -82,8 +80,6 @@ while done == False:
                 if selected_piece.isValidMove(click[0],click[1]):
                   selected_piece.moveTo(click[0],click[1])
                   turn_stage = 'dir_sel'
-                  screen.blit(turnPhase, [screenw/2,screenh/2])
-                  clock.tick(1)
               elif turn_stage == 'dir_sel':
                 dirs = [(selected_piece.x, selected_piece.y-2),
                         (selected_piece.x+1, selected_piece.y-1),
@@ -97,24 +93,22 @@ while done == False:
                   for i in spaces: i.dir_sel = False
                   if selected_piece.getValidAttacks() != []:
                       turn_stage = 'attack'
-                      screen.blit(attackPhase, [screenw/2,screenh/2])
-                      clock.tick(1)
                   else:
-                      gs.toggleTurn()
+                      moveCounter+=1
+                      if moveCounter==3:
+                          gs.toggleTurn()
                       selected_piece = None
                       turn_stage = 'piece_sel'
-                      screen.blit(movePhase, [screenw/2,screenh/2])
-                      clock.tick(1)
               elif turn_stage == 'attack':
                 if selected_piece.getValidAttacks() != []:
                   if selected_piece.isValidAttack(click[0],click[1]): 
                     target = gs.getPiece(click[0],click[1])
                     selected_piece.attack(target)
-                gs.toggleTurn()
+                moveCounter+=1
+                if moveCounter==3:
+                    gs.toggleTurn()
                 selected_piece = None
                 turn_stage = 'piece_sel'
-                screen.blit(movePhase, [screenw/2,screenh/2])
-                clock.tick(1)
                   
             
         if selected_piece != None and turn_stage == 'move': 
@@ -146,7 +140,7 @@ while done == False:
 
         for i in spaces:
           if i.dir_sel:
-            arrow_img = pygame.image.load('res/tiles/arrows.png').convert_alpha()
+            arrow_img = pygame.image.load('../res/tiles/arrows.png').convert_alpha()
             arrow_img = pygame.transform.scale(arrow_img, (int(1.5*screenw/cols),int(1.5*screenh/rows*2)))
             screen.blit(arrow_img,[i.xpos-31,i.ypos-29])
         pygame.display.flip()
