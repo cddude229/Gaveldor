@@ -50,7 +50,7 @@ gameover = False
 
 turn_stage = 'piece_sel' # stages: piece_select, move, dir_sel, attack
 selected_piece = None
-#arrow_img = None
+hover_piece = None
 
 pygame.init()
 
@@ -61,6 +61,18 @@ while done == False:
                 done = True
                 gameover = True
             turn = gs.currentTurn
+
+            if game_begun:
+              x,y = pygame.mouse.get_pos()
+              hoverx = x/(3*screenw/cols/4)
+              if hoverx % 2 == 0: hover = (hoverx, y/(screenh/rows*2)*2)
+              else: hover = (hoverx, (y-screenh/rows/2)/(screenh/rows*2)*2+1)
+              piece = gs.getPiece(hover[0],hover[1])
+              if turn_stage == 'piece_sel':
+                if piece != None and gs.currentTurn == piece.player:
+                  hover_piece = piece
+                else: hover_piece = None
+                  
             if event.type == pygame.MOUSEBUTTONUP:
               x,y = pygame.mouse.get_pos()
               if game_begun == False: 
@@ -99,9 +111,11 @@ while done == False:
                         (selected_piece.x, selected_piece.y+2),
                         (selected_piece.x-1, selected_piece.y+1),
                         (selected_piece.x-1, selected_piece.y-1)]
-                if (click[0],click[1]) in dirs: 
-                  new_dir = dirs.index((click[0],click[1]))
-                  selected_piece.direction = new_dir
+                if (click[0],click[1]) in dirs or (click[0],click[1]) == \
+                        (selected_piece.x, selected_piece.y): 
+                  if (click[0],click[1]) != (selected_piece.x, selected_piece.y):
+                    new_dir = dirs.index((click[0],click[1]))
+                    selected_piece.direction = new_dir
                   for i in spaces: i.dir_sel = False
                   if selected_piece.getValidAttacks() != []:
                       turn_stage = 'attack'
@@ -153,6 +167,14 @@ while done == False:
                 else:
                     screen.blit(i.health,[i.xpos+1.5*i.x3,i.ypos+4.5*i.y3])                    
         '''
+
+        for i in spaces:
+          loc = (i.x, i.y)
+          if hover_piece != None and  loc == (hover_piece.x, hover_piece.y):
+            hover_overlay = pygame.image.load('../res/tiles/hover.png').convert_alpha()
+            hover_overlay = pygame.transform.smoothscale(hover_overlay, (screenw/cols, screenh/rows*2))
+            hover_overlay = pygame.transform.rotate(hover_overlay, -60 * hover_piece.direction)
+            screen.blit(hover_overlay, i.rect.topleft)
 
         for i in spaces:
           if i.dir_sel:
