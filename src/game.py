@@ -95,7 +95,7 @@ while done == False:
               if game_status != 0 and y > screenh+screenh/rows:
                 new_game()
               if y >= screenh+screenh/rows:
-                if x >= 255 and x <= 405:
+                if x >= 289 and x <= 418:
                   gs.toggleTurn()
                   selected_piece = None
                   turn_stage = 'piece_sel'
@@ -214,11 +214,11 @@ while done == False:
         screen.blit(turn_tile, (0, screenh+screenh/rows))
 
         end_turn = pygame.image.load('../res/tiles/end_turn.png').convert_alpha()
-        screen.blit(end_turn, (255, screenh+screenh/rows))
+        screen.blit(end_turn, (289, screenh+screenh/rows))
 
         moves_left = '../res/tiles/moves_left_' + str(3-moveCounter) + '.png'
         turn_tile = pygame.image.load(moves_left).convert_alpha()
-        screen.blit(turn_tile, (410, screenh+screenh/rows))
+        screen.blit(turn_tile, (423, screenh+screenh/rows))
 
 
         if game_begun == False:
