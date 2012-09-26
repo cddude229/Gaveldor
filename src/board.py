@@ -12,15 +12,7 @@ class Board(pygame.sprite.Sprite):
         self.image.fill(black)
         self.rect = self.image.get_rect()
         self.rect.topleft = [0,0]
-'''
-class Button(pygame.sprite.Sprite):
-    def __init__(self,screenw,screenh,x,y):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface([200,50])
-        self.image.fill(white)
-        self.rect = self.image.get_rect()
-        self.rect.topleft = [(x+2)*screenw/x-(x+2)*screenw/x/4,screenh/2]
-'''
+
 class Space(pygame.sprite.Sprite):
     def __init__(self,screenw,screenh,boardx,boardy,xpos,ypos,xcoord,ycoord):
         self.screenw = screenw

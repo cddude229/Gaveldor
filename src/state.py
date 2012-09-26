@@ -32,6 +32,11 @@ class State:
       if self.currentTurn == 1: self.currentTurn = 2
       else: self.currentTurn = 1
 
+    def getStatus(self):
+      if self.player1.hasPiecesLeft() == 0: return 2
+      if self.player2.hasPiecesLeft() == 0: return 1
+      return 0
+
     def getHeight(self):
         return self.height
 

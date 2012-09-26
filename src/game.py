@@ -5,7 +5,7 @@ from state import State
 from piece import Piece
 
 screenw = 900
-screenh = 660
+screenh = 640
 
 cols=7
 rows=11
@@ -28,32 +28,33 @@ board = pygame.sprite.RenderPlain()
 b = Board(screenw,screenh,cols,rows)
 board.add(b)
 
-#button = pygame.sprite.RenderPlain()
-#but = Button(screenw,screenh,cols,rows)
-#button.add(but)
+def new_game():
+  global gs,spaces,game_begun,done,gameover, \
+          turn_stage,selected_piece,hover_piece
+  gs = State(cols,rows)
+  Piece.setState(gs)
 
-gs = State(cols,rows)
-Piece.setState(gs)
+  spaces = pygame.sprite.RenderPlain()
+  #sets up board
+  for i in xrange(cols):
+      for j in xrange(rows/2+1):
+          if i%2==0:
+              s=Space(screenw,screenh,cols,rows,i*screenw/cols-i*screenw/cols/4,2*j*screenh/rows,i,j*2)
+          else:
+              if j < rows/2:
+                s=Space(screenw,screenh,cols,rows,i*screenw/cols-i*screenw/cols/4,2*int((j+.5)*screenh/rows),i,j*2+1)
+          spaces.add(s)
 
-spaces = pygame.sprite.RenderPlain()
-#sets up board
-for i in xrange(cols):
-    for j in xrange(rows/2+1):
-        if i%2==0:
-            s=Space(screenw,screenh,cols,rows,i*screenw/cols-i*screenw/cols/4,2*j*screenh/rows,i,j*2)
-        else:
-            if j < rows/2:
-              s=Space(screenw,screenh,cols,rows,i*screenw/cols-i*screenw/cols/4,2*int((j+.5)*screenh/rows),i,j*2+1)
-        spaces.add(s)
+  game_begun = False
+  done = False
+  gameover = False
 
-game_begun = False
-done = False
-gameover = False
+  # stages: piece_select, move, dir_sel, attack
+  turn_stage = 'piece_sel'  
+  selected_piece = None
+  hover_piece = None
 
-turn_stage = 'piece_sel' # stages: piece_select, move, dir_sel, attack
-selected_piece = None
-hover_piece = None
-
+new_game()
 click_sound = pygame.mixer.Sound('../res/sounds/click.wav')
 attack_sound = pygame.mixer.Sound('../res/sounds/sword.wav')
 
@@ -83,6 +84,8 @@ while done == False:
                   screen.fill(black)
                   game_begun = True
                 continue
+              if game_status != 0:
+                new_game()
               if y >= screenh+screenh/rows:
                 if x >= 255 and x <= 405:
                   gs.toggleTurn()
@@ -109,6 +112,9 @@ while done == False:
                   click_sound.play()
                   selected_piece.moveTo(click[0],click[1])
                   turn_stage = 'dir_sel'
+                else:
+                  selected_piece = None
+                  turn_stage = 'piece_sel'
               elif turn_stage == 'dir_sel':
                 dirs = [(selected_piece.x, selected_piece.y-2),
                         (selected_piece.x+1, selected_piece.y-1),
@@ -161,7 +167,6 @@ while done == False:
           if selected_piece != None and loc == (selected_piece.x, selected_piece.y):
             if turn_stage == 'dir_sel': i.dir_sel = True
           i.update(gs.getPiece(i.x,i.y))
-        #button.draw(b.image)
         spaces.draw(b.image)
         board.draw(screen)
 
@@ -204,6 +209,18 @@ while done == False:
         if game_begun == False:
           splash = pygame.image.load('../res/tiles/splash.png').convert_alpha()
           screen.blit(splash, (0,0))
+
+        game_status = gs.getStatus()
+        if game_begun:
+          if game_status == 1:  
+            splash = pygame.image.load('../res/tiles/player_1_wins.png').convert_alpha()
+            screen.blit(splash, (0,0))
+          elif game_status == 2:
+            splash = pygame.image.load('../res/tiles/player_2_wins.png').convert_alpha()
+            screen.blit(splash, (0,0))
+          elif game_status == 3:
+            #stalemate
+            pass
 
         pygame.display.flip()
 
