@@ -50,13 +50,13 @@ class Archer(Piece):
             (self.x+2, self.y-2), # 1
             (self.x+2, self.y),   # 1.5
             (self.x+2, self.y+2), # 2
-            (self.x+1, self.y-3), # 2.5
+            (self.x+1, self.y+3), # 2.5
             (self.x, self.y+4),   # 3
-            (self.x-2, self.y),   # 3.5
+            (self.x-1, self.y+3),   # 3.5
             (self.x-2, self.y+2), # 4
-            (self.x-1, self.y-3), # 4.5
+            (self.x-2, self.y), # 4.5
             (self.x-2, self.y-2), # 5
-            (self.x-1, self.y+3)  # 5.5
+            (self.x-1, self.y-3)  # 5.5
         ]
 
         # Get current dir + other two adjacent ones
