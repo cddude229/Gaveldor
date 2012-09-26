@@ -4,7 +4,7 @@ from piece import Piece
 class Archer(Piece):
     def __init__(self, player, x, y, dir):
         Piece.__init__(self, player, x, y, dir, 1, 2, "a")
-        self.imageFile = "../res/tiles/archer_" + str(self.player) + ".png"
+        self.imageFile = "../res/tiles/archer_p" + str(self.player) + "_h"
 
     def attack(self, piece):
         power = self.attackPower

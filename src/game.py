@@ -144,6 +144,7 @@ while done == False:
         spaces.draw(b.image)
         board.draw(screen)
 
+        '''
         for i in spaces:
             if i.piece!=None:
                 i.health = font.render(str(i.piece.remainingHealth),True,white)
@@ -151,6 +152,7 @@ while done == False:
                     screen.blit(i.health,[i.xpos+1.5*i.x3,i.ypos+i.y3])
                 else:
                     screen.blit(i.health,[i.xpos+1.5*i.x3,i.ypos+4.5*i.y3])                    
+        '''
 
         for i in spaces:
           if i.dir_sel:

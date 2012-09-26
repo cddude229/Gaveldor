@@ -45,7 +45,7 @@ class Space(pygame.sprite.Sprite):
     def update(self,piece):
         self.piece = piece
         if self.piece != None: 
-          self.image = pygame.image.load(self.piece.imageFile).convert_alpha()
+          self.image = pygame.image.load(self.piece.imageFile + str(self.piece.remainingHealth) + '.png').convert_alpha()
           self.image = pygame.transform.smoothscale(self.image, (self.screenw/self.boardx, self.screenh/self.boardy*2))
           self.image = pygame.transform.rotate(self.image, -60 * self.piece.direction)
           self.rect = self.image.get_rect(center = self.rect.center)

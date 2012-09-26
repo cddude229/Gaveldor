@@ -4,7 +4,7 @@ from piece import Piece
 class Infantry(Piece):
     def __init__(self, player, x, y, dir):
         Piece.__init__(self, player, x, y, dir, 1, 3, "i")
-        self.imageFile = "../res/tiles/infantry_" + str(self.player) + ".png"
+        self.imageFile = "../res/tiles/infantry_p" + str(self.player) + "_h"
 
     def attack(self, piece):
         power = self.attackPower
