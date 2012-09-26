@@ -99,6 +99,7 @@ while done == False:
                   gs.toggleTurn()
                   selected_piece = None
                   turn_stage = 'piece_sel'
+                  counter=0
                   continue
               clickx = x/(3*screenw/cols/4)
               if clickx % 2 == 0:

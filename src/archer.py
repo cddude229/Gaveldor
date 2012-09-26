@@ -46,7 +46,7 @@ class Archer(Piece):
         ret2 = [
             # Two spaces away
             (self.x, self.y-4),   # 0
-            (self.x+1, self.y+3), # 0.5
+            (self.x+1, self.y-3), # 0.5
             (self.x+2, self.y-2), # 1
             (self.x+2, self.y),   # 1.5
             (self.x+2, self.y+2), # 2
