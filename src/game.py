@@ -30,7 +30,7 @@ board.add(b)
 
 def new_game():
   global gs,spaces,game_begun,done,gameover, \
-          turn_stage,selected_piece,hover_piece
+          turn_stage,selected_piece,hover_piece,attackable_pieces
   gs = State(cols,rows)
   Piece.setState(gs)
 
@@ -53,6 +53,7 @@ def new_game():
   turn_stage = 'piece_sel'  
   selected_piece = None
   hover_piece = None
+  attackable_pieces = []
 
 new_game()
 click_sound = pygame.mixer.Sound('../res/sounds/click.wav')
@@ -60,6 +61,13 @@ attack_sound = pygame.mixer.Sound('../res/sounds/sword.wav')
 
 while done == False:
     while gameover == False:
+        attackable_pieces = []
+        if turn_stage == 'attack' and selected_piece != None:
+          valid_attacks = selected_piece.getValidAttacks()
+          if valid_attacks != []:
+            for attack in valid_attacks:
+              attackable_pieces.append(attack)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 done = True
@@ -84,7 +92,7 @@ while done == False:
                   screen.fill(black)
                   game_begun = True
                 continue
-              if game_status != 0:
+              if game_status != 0 and y > screenh+screenh/rows:
                 new_game()
               if y >= screenh+screenh/rows:
                 if x >= 255 and x <= 405:
@@ -129,8 +137,9 @@ while done == False:
                     selected_piece.direction = new_dir
                   for i in spaces: i.dir_sel = False
                   click_sound.play()
-                  if selected_piece.getValidAttacks() != []:
-                      turn_stage = 'attack'
+                  valid_attacks = selected_piece.getValidAttacks()
+                  if valid_attacks != []:
+                    turn_stage = 'attack'
                   else:
                       moveCounter+=1
                       if moveCounter==3:
@@ -139,15 +148,16 @@ while done == False:
                       selected_piece = None
                       turn_stage = 'piece_sel'
               elif turn_stage == 'attack':
-                if selected_piece.getValidAttacks() != []:
+                valid_attacks = selected_piece.getValidAttacks()
+                if valid_attacks != []:
                   if selected_piece.isValidAttack(click[0],click[1]): 
                     target = gs.getPiece(click[0],click[1])
                     selected_piece.attack(target)
+                    attack_sound.play()
                 moveCounter+=1
                 if moveCounter==3:
                     gs.toggleTurn()
                     moveCounter=0
-                attack_sound.play()
                 selected_piece = None
                 turn_stage = 'piece_sel'
                   
@@ -187,6 +197,11 @@ while done == False:
             hover_overlay = pygame.transform.smoothscale(hover_overlay, (screenw/cols, screenh/rows*2))
             hover_overlay = pygame.transform.rotate(hover_overlay, -60 * hover_piece.direction)
             screen.blit(hover_overlay, i.rect.topleft)
+          for attack in attackable_pieces:
+            if loc == attack:
+              attack_overlay = pygame.image.load('../res/tiles/attackable.png').convert_alpha()
+              attack_overlay = pygame.transform.smoothscale(attack_overlay, (screenw/cols, screenh/rows*2))
+              screen.blit(attack_overlay, i.rect.topleft)
 
         for i in spaces:
           if i.dir_sel:
