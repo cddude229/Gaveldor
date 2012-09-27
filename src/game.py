@@ -207,8 +207,8 @@ while done == False:
         for i in spaces:
           if i.dir_sel:
             arrow_img = pygame.image.load('../res/tiles/arrows.png').convert_alpha()
-            arrow_img = pygame.transform.scale(arrow_img, (int(1.5*screenw/cols),int(1.5*screenh/rows*2)))
-            screen.blit(arrow_img,[i.xpos-31,i.ypos-29])
+            #arrow_img = pygame.transform.scale(arrow_img, (int(1.5*screenw/cols),int(1.5*screenh/rows*2)))
+            screen.blit(arrow_img,[i.xpos-80,i.ypos-65])
 
         turn_tile_to_load = '../res/tiles/player_' + str(gs.currentTurn) + '_' + str(turn_stage) + '.png'
         turn_tile = pygame.image.load(turn_tile_to_load).convert_alpha()
