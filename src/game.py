@@ -267,9 +267,11 @@ while done == False:
             if loc == attack:
               attack_overlay = pygame.image.load('../res/tiles/attackable.png').convert_alpha()
               attack_overlay = pygame.transform.smoothscale(attack_overlay, (screenw/cols, screenh/rows*2))
-              if i.boardx % 2 == 0:
+              if i.x % 2 == 0:
+                print 'poop'
                 screen.blit(attack_overlay, i.rect.topleft)
               else:
+                print 'womp'
                 screen.blit(attack_overlay, (i.rect.topleft[0]+0,i.rect.topleft[1]+0))
 
         for i in spaces:
