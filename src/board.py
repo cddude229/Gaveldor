@@ -8,7 +8,7 @@ white = [255,255,255]
 class Board(pygame.sprite.Sprite):
     def __init__(self,screenw,screenh,x,y):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface([screenw, screenh+screenh/y])
+        self.image = pygame.Surface([screenw, screenh+screenh/y+50])
         self.image.fill(black)
         self.rect = self.image.get_rect()
         self.rect.topleft = [0,0]
