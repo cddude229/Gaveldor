@@ -13,7 +13,78 @@ class Archer(Piece):
         if piece.type == "c":
             power *= 2
 
-        # Need to implement back attack
+        if abs(self.x-piece.x) + abs(self.y-piece.y) == 2:
+            # Only one spot away, use old algo...
+            if self.direction == piece.direction \
+            or (self.direction+1)%6 == piece.direction \
+            or (self.direction-1)%6 == piece.direction:
+                power *= 2
+        else:
+            # attacking two spots away
+
+            # First, determine the angle from among these:
+            ret2 = [
+                # Two spaces away
+                (self.x, self.y-4),   # 0
+                (self.x+1, self.y-3), # 0.5
+                (self.x+2, self.y-2), # 1
+                (self.x+2, self.y),   # 1.5
+                (self.x+2, self.y+2), # 2
+                (self.x+1, self.y+3), # 2.5
+                (self.x, self.y+4),   # 3
+                (self.x-1, self.y+3),   # 3.5
+                (self.x-2, self.y+2), # 4
+                (self.x-2, self.y), # 4.5
+                (self.x-2, self.y-2), # 5
+                (self.x-1, self.y-3)  # 5.5
+            ]
+
+            angle = ret2.index((piece.x, piece.y))
+
+            # Now that we have the angle, if divisble by two, it's 0,1,2,3,4,5 (on the normal clock)
+            # so, that means use the old system again
+            if angle % 2 == 0:
+                if self.direction == piece.direction \
+                or (self.direction+1)%6 == piece.direction \
+                or (self.direction-1)%6 == piece.direction:
+                    power *= 2
+            else :
+                # On a half angle... get the piece's back spots.
+                # If angle-1 or angle+1 is in those spots, do x2
+
+                ret = [
+                    (piece.x, piece.y+2),
+                    (piece.x, piece.y-2),
+                    (piece.x-1, piece.y-1),
+                    (piece.x-1, piece.y+1),
+                    (piece.x+1, piece.y-1),
+                    (piece.x+1, piece.y+1)
+                ]
+
+                back = [
+                    ret[(self.direction+3)%6],
+                    ret[(self.direction+4)%6],
+                    ret[(self.direction-2)%6]
+                ]
+
+                ret3 = [
+                    # Two spaces away
+                    (self.x, self.y-2),   # 0
+                    (self.x+1, self.y-3), # 0.5
+                    (self.x+1, self.y-1), # 1
+                    (self.x+2, self.y),   # 1.5
+                    (self.x+1, self.y+1), # 2
+                    (self.x+1, self.y+3), # 2.5
+                    (self.x, self.y+2),   # 3
+                    (self.x-1, self.y+3),   # 3.5
+                    (self.x-1, self.y+1), # 4
+                    (self.x-2, self.y), # 4.5
+                    (self.x-1, self.y-1), # 5
+                    (self.x-1, self.y-3)  # 5.5
+                ]
+
+                if ret3[(angle-1)%12] in back or ret3[(angle+1)%12] in back:
+                    power *= 2
 
         piece.loseHealth(power)
 
