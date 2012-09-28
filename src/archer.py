@@ -53,18 +53,18 @@ class Archer(Piece):
                 # If angle-1 or angle+1 is in those spots, do x2
 
                 ret = [
-                    (piece.x, piece.y+2),
-                    (piece.x, piece.y-2),
-                    (piece.x-1, piece.y-1),
-                    (piece.x-1, piece.y+1),
-                    (piece.x+1, piece.y-1),
-                    (piece.x+1, piece.y+1)
+                    (piece.x, piece.y-2),   # 0
+                    (piece.x+1, piece.y-1), # 1
+                    (piece.x+1, piece.y+1), # 2
+                    (piece.x, piece.y+2),   # 3
+                    (piece.x-1, piece.y+1), # 4
+                    (piece.x-1, piece.y-1)  # 5
                 ]
 
                 back = [
-                    ret[(self.direction+3)%6],
-                    ret[(self.direction+4)%6],
-                    ret[(self.direction-2)%6]
+                    ret[(piece.direction+3)%6],
+                    ret[(piece.direction+4)%6],
+                    ret[(piece.direction-2)%6]
                 ]
 
                 ret3 = [
