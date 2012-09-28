@@ -28,11 +28,19 @@ class State:
         self.width = width
         self.height = height
 
+        self.stalemateCounter = 0
+
     def toggleTurn(self):
+      self.countStalemate()
       if self.currentTurn == 1: self.currentTurn = 2
       else: self.currentTurn = 1
 
+    def countStalemate(self):
+        if self.player1.countPieces() == 1 and self.player2.countPieces() == 1:
+            self.stalemateCounter += 1
+
     def getStatus(self):
+      if self.stalemateCounter > 4: return 3
       if self.player1.hasPiecesLeft() == 0: return 2
       if self.player2.hasPiecesLeft() == 0: return 1
       return 0

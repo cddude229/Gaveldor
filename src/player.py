@@ -29,6 +29,9 @@ class Player:
     def getPieces(self):
         return self.pieces
 
+    def countPieces(self):
+        return len(self.pieces)
+
     def clearDeadPieces(self):
         ret = []
 

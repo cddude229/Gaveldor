@@ -304,8 +304,8 @@ while done == False:
             splash = pygame.image.load('../res/tiles/player_2_wins.png').convert_alpha()
             screen.blit(splash, (0,0))
           elif game_status == 3:
-            #stalemate
-            pass
+            splash = pygame.image.load('../res/tiles/stalemate.png').convert_alpha()
+            screen.blit(splash, (0,0))
 
         pygame.display.flip()
 
