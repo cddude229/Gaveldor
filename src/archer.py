@@ -56,12 +56,12 @@ class Archer(Piece):
                 # first, calculate attack dir.
                 # Then, if attack dir is within one of piece's dir, back attack
                 ret = [ # Static list is easy.  Keep this sorted in order by direction
-                    (self.x, self.y-2),   # 0
-                    (self.x+1, self.y-1), # 1
-                    (self.x+1, self.y+1), # 2
-                    (self.x, self.y+2),   # 3
-                    (self.x-1, self.y+1), # 4
-                    (self.x-1, self.y-1)  # 5
+                    (self.x, self.y-4),   # 0
+                    (self.x+2, self.y-2), # 1
+                    (self.x+2, self.y+2), # 2
+                    (self.x, self.y+4),   # 3
+                    (self.x-2, self.y+2), # 4
+                    (self.x-2, self.y-2)  # 5
                 ]
                 attackDir = ret.index((piece.x, piece.y))
                 if attackDir == piece.direction \
