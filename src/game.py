@@ -145,6 +145,7 @@ while done == False:
                       game_begun = True
                 continue
               if game_status != 0 and y > screenh+screenh/rows:
+                click_sound.play()
                 new_game()
               if game_status == 0 and y >= screenh+screenh/rows:
                 if x < 289:
