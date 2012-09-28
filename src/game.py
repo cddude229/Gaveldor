@@ -69,6 +69,7 @@ attack_sound = pygame.mixer.Sound('../res/sounds/sword.wav')
 while done == False:
     while gameover == False:
         attackable_pieces = []
+        movesAvailable = min([3, len(gs.getPlayer(gs.currentTurn).pieces)])
         if turn_stage == 'attack' and selected_piece != None:
           valid_attacks = selected_piece.getValidAttacks()
           if valid_attacks != []:
@@ -188,7 +189,7 @@ while done == False:
                   else:
                       moveCounter += 1
                       movedPieces.append(selected_piece)
-                      if moveCounter == 3:
+                      if moveCounter == movesAvailable:
                           gs.toggleTurn()
                           moveCounter = 0
                           movedPieces = []
@@ -204,7 +205,7 @@ while done == False:
                     attack_sound.play()
                 moveCounter += 1
                 movedPieces.append(selected_piece)
-                if moveCounter == 3:
+                if moveCounter == movesAvailable:
                     gs.toggleTurn()
                     moveCounter = 0
                     movedPieces = []
@@ -268,7 +269,7 @@ while done == False:
         screen.blit(turn_tile, (150,0))
 
         # moves left indicator
-        moves_left = '../res/tiles/moves_left_' + str(3-moveCounter) + '.png'
+        moves_left = '../res/tiles/moves_left_' + str(movesAvailable-moveCounter) + '.png'
         moves_tile = pygame.image.load(moves_left).convert_alpha()
         screen.blit(moves_tile, (357, 0))
 
