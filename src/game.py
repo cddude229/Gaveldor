@@ -135,6 +135,8 @@ while done == False:
                 elif x > 418:
                   gs.replace_piece(selected_piece, saved_piece)
                   selected_piece = None
+                  hover_piece = None
+                  saved_piece = None
                   turn_stage = 'piece_sel'
                 else: 
                   paused = True
