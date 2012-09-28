@@ -85,21 +85,27 @@ while done == False:
                 x,y = pygame.mouse.get_pos()
                 if rules_showing:
                   if y > screenh+screenh/rows+50:
+                    click_sound.play()
                     rules_showing = False
                   else: continue
                 elif credits_showing:
                   if y > screenh+screenh/rows+50:
+                    click_sound.play()
                     credits_showing = False
                   else: continue               
                 elif y > screenh+screenh/rows+50:
+                    click_sound.play()
                     paused = False
                     continue
                 if x > 240 and x < 460:
                   if y > 360 and y < 400:
+                    click_sound.play()
                     new_game()
                   elif y > 420 and y < 460:
+                    click_sound.play()
                     rules_showing = True
                   elif y > 480 and y < 540:
+                    click_sound.play()
                     credits_showing = True
               continue
 
@@ -120,12 +126,21 @@ while done == False:
               y -= 50
               if game_begun == False: 
                 if y >= screenh+screenh/rows: 
-                  if credits_showing: credits_showing = False
-                  elif rules_showing: rules_showing = False
+                  if credits_showing: 
+                    click_sound.play()
+                    credits_showing = False
+                  elif rules_showing: 
+                    click_sound.play()
+                    rules_showing = False
                   else:
-                    if x < 236: rules_showing = True
-                    elif x > 492: credits_showing = True
+                    if x < 236: 
+                      click_sound.play()
+                      rules_showing = True
+                    elif x > 492: 
+                      click_sound.play()
+                      credits_showing = True
                     else:
+                      click_sound.play()
                       screen.fill(black)
                       game_begun = True
                 continue
@@ -133,6 +148,7 @@ while done == False:
                 new_game()
               if game_status == 0 and y >= screenh+screenh/rows:
                 if x < 289:
+                  click_sound.play()
                   gs.toggleTurn()
                   selected_piece = None
                   saved_piece = None
@@ -141,12 +157,14 @@ while done == False:
                   movedPieces = []
                   continue
                 elif x > 418:
+                  click_sound.play()
                   gs.replace_piece(selected_piece, saved_piece)
                   selected_piece = None
                   hover_piece = None
                   saved_piece = None
                   turn_stage = 'piece_sel'
                 else: 
+                  click_sound.play()
                   paused = True
               clickx = x/(3*screenw/cols/4)
               if clickx % 2 == 0:
@@ -218,7 +236,6 @@ while done == False:
                 saved_piece = None
                 turn_stage = 'piece_sel'
                   
-            
         if selected_piece != None and turn_stage == 'move': 
           valid_moves = selected_piece.getValidMoves()
         else:
@@ -249,7 +266,10 @@ while done == False:
             if loc == attack:
               attack_overlay = pygame.image.load('../res/tiles/attackable.png').convert_alpha()
               attack_overlay = pygame.transform.smoothscale(attack_overlay, (screenw/cols, screenh/rows*2))
-              screen.blit(attack_overlay, i.rect.topleft)
+              if i.boardx % 2 == 0:
+                screen.blit(attack_overlay, i.rect.topleft)
+              else:
+                screen.blit(attack_overlay, (i.rect.topleft[0]+0,i.rect.topleft[1]+0))
 
         for i in spaces:
           if i.dir_sel:
