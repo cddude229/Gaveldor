@@ -31,7 +31,7 @@ def new_game():
   global gs,spaces,game_begun,done,gameover, \
           turn_stage,selected_piece,hover_piece, \
           attackable_pieces,credits_showing,rules_showing, \
-          paused,moveCounter,saved_piece
+          paused,moveCounter,saved_piece,movedPieces
   gs = State(cols,rows)
   Piece.setState(gs)
 
@@ -60,6 +60,7 @@ def new_game():
   hover_piece = None
   attackable_pieces = []
   moveCounter = 0
+  movedPieces = []
 
 new_game()
 click_sound = pygame.mixer.Sound('../res/sounds/click.wav')
@@ -131,6 +132,7 @@ while done == False:
                   saved_piece = None
                   turn_stage = 'piece_sel'
                   moveCounter = 0
+                  movedPieces = []
                   continue
                 elif x > 418:
                   gs.replace_piece(selected_piece, saved_piece)
@@ -148,7 +150,7 @@ while done == False:
               
               if turn_stage == 'piece_sel':
                 piece = gs.getPiece(click[0],click[1])
-                if piece != None and gs.currentTurn == piece.player:
+                if piece != None and gs.currentTurn == piece.player and piece not in movedPieces:
                   click_sound.play()
                   selected_piece = piece
                   saved_piece = copy.copy(selected_piece)
@@ -184,10 +186,12 @@ while done == False:
                   if valid_attacks != []:
                     turn_stage = 'attack'
                   else:
-                      moveCounter+=1
-                      if moveCounter==3:
+                      moveCounter += 1
+                      movedPieces.append(selected_piece)
+                      if moveCounter == 3:
                           gs.toggleTurn()
-                          moveCounter=0
+                          moveCounter = 0
+                          movedPieces = []
                       selected_piece = None
                       saved_piece = None
                       turn_stage = 'piece_sel'
@@ -198,10 +202,12 @@ while done == False:
                     target = gs.getPiece(click[0],click[1])
                     selected_piece.attack(target)
                     attack_sound.play()
-                moveCounter+=1
-                if moveCounter==3:
+                moveCounter += 1
+                movedPieces.append(selected_piece)
+                if moveCounter == 3:
                     gs.toggleTurn()
-                    moveCounter=0
+                    moveCounter = 0
+                    movedPieces = []
                 selected_piece = None
                 saved_piece = None
                 turn_stage = 'piece_sel'
@@ -209,7 +215,8 @@ while done == False:
             
         if selected_piece != None and turn_stage == 'move': 
           valid_moves = selected_piece.getValidMoves()
-        else: valid_moves = []
+        else:
+          valid_moves = []
 
         gs.player1.clearDeadPieces()
         gs.player2.clearDeadPieces()
