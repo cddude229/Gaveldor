@@ -81,7 +81,18 @@ while done == False:
 
             if paused:
               if event.type == pygame.MOUSEBUTTONUP:
-                paused = False
+                x,y = pygame.mouse.get_pos()
+                if rules_showing:
+                  if y > screenh+screenh/rows+50:
+                    rules_showing = False
+                  else: continue
+                if x > 240 and x < 460:
+                  if y > 360 and y < 400:
+                    new_game()
+                  elif y > 420 and y < 460:
+                    rules_showing = True
+                  elif y > 480 and y < 540:
+                    paused = False
               continue
 
             if game_begun:
@@ -123,7 +134,6 @@ while done == False:
                   # cancel turn
                   pass
                 else: 
-                  # pause menu
                   paused = True
               clickx = x/(3*screenw/cols/4)
               if clickx % 2 == 0:
@@ -256,16 +266,16 @@ while done == False:
           piece_info_tile = pygame.image.load(piece_info).convert_alpha()
           screen.blit(piece_info_tile, (432, 0))
 
-        if game_begun == False:
+        if paused and not rules_showing:
+          menu = pygame.image.load('../res/tiles/pause.png').convert_alpha()
+          screen.blit(menu, (0,0))
+
+        if game_begun == False or rules_showing:
           if credits_showing: image = '../res/tiles/credits.png'
           elif rules_showing: image = '../res/tiles/rules.png'
           else: image = '../res/tiles/splash.png'
           splash = pygame.image.load(image).convert_alpha()
           screen.blit(splash, (0,0))
-
-        if paused:
-          menu = pygame.image.load('../res/tiles/pause.png').convert_alpha()
-          screen.blit(menu, (0,0))
 
         game_status = gs.getStatus()
         if game_begun:
