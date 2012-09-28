@@ -40,7 +40,7 @@ class State:
             self.stalemateCounter += 1
 
     def getStatus(self):
-      if self.stalemateCounter > 4: return 3
+      if self.stalemateCounter > 8: return 3
       if self.player1.hasPiecesLeft() == 0: return 2
       if self.player2.hasPiecesLeft() == 0: return 1
       return 0
