@@ -1,5 +1,6 @@
 import pygame
 import pygame.mixer
+import copy
 from board import *
 from state import State
 from piece import Piece
@@ -9,8 +10,6 @@ screenh = 640
 
 cols=7
 rows=11
-
-moveCounter=0;
 
 screen = pygame.display.set_mode([screenw-screenw/4+32,screenh+screenh/rows+100])
 pygame.display.set_caption('Gaveldor')
@@ -32,7 +31,7 @@ def new_game():
   global gs,spaces,game_begun,done,gameover, \
           turn_stage,selected_piece,hover_piece, \
           attackable_pieces,credits_showing,rules_showing, \
-          paused
+          paused,moveCounter,saved_piece
   gs = State(cols,rows)
   Piece.setState(gs)
 
@@ -57,8 +56,10 @@ def new_game():
   # stages: piece_select, move, dir_sel, attack
   turn_stage = 'piece_sel'  
   selected_piece = None
+  saved_piece = None # for cancel button
   hover_piece = None
   attackable_pieces = []
+  moveCounter = 0
 
 new_game()
 click_sound = pygame.mixer.Sound('../res/sounds/click.wav')
@@ -127,12 +128,14 @@ while done == False:
                 if x < 289:
                   gs.toggleTurn()
                   selected_piece = None
+                  saved_piece = None
                   turn_stage = 'piece_sel'
                   moveCounter = 0
                   continue
                 elif x > 418:
-                  # cancel turn
-                  pass
+                  gs.replace_piece(selected_piece, saved_piece)
+                  selected_piece = None
+                  turn_stage = 'piece_sel'
                 else: 
                   paused = True
               clickx = x/(3*screenw/cols/4)
@@ -146,9 +149,11 @@ while done == False:
                 if piece != None and gs.currentTurn == piece.player:
                   click_sound.play()
                   selected_piece = piece
+                  saved_piece = copy.copy(selected_piece)
                   turn_stage = 'move'
                 else: 
                   selected_piece = None
+                  saved_piece = None
                   turn_stage = 'piece_sel'
               elif turn_stage == 'move':
                 if selected_piece.isValidMove(click[0],click[1]):
@@ -157,6 +162,7 @@ while done == False:
                   turn_stage = 'dir_sel'
                 else:
                   selected_piece = None
+                  saved_piece = None
                   turn_stage = 'piece_sel'
               elif turn_stage == 'dir_sel':
                 dirs = [(selected_piece.x, selected_piece.y-2),
@@ -165,8 +171,8 @@ while done == False:
                         (selected_piece.x, selected_piece.y+2),
                         (selected_piece.x-1, selected_piece.y+1),
                         (selected_piece.x-1, selected_piece.y-1)]
-                if (click[0],click[1]) in dirs or (click[0],click[1]) == \
-                        (selected_piece.x, selected_piece.y): 
+                if (click[0],click[1]) in dirs: # or (click[0],click[1]) == \
+                       # (selected_piece.x, selected_piece.y): 
                   if (click[0],click[1]) != (selected_piece.x, selected_piece.y):
                     new_dir = dirs.index((click[0],click[1]))
                     selected_piece.direction = new_dir
@@ -181,6 +187,7 @@ while done == False:
                           gs.toggleTurn()
                           moveCounter=0
                       selected_piece = None
+                      saved_piece = None
                       turn_stage = 'piece_sel'
               elif turn_stage == 'attack':
                 valid_attacks = selected_piece.getValidAttacks()
@@ -194,6 +201,7 @@ while done == False:
                     gs.toggleTurn()
                     moveCounter=0
                 selected_piece = None
+                saved_piece = None
                 turn_stage = 'piece_sel'
                   
             

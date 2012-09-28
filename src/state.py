@@ -68,3 +68,10 @@ class State:
         if id == 1:
             return self.player1
         return self.player2
+
+    def replace_piece(self, a, b):
+      for j in [1,2]:
+        pieces = self.getPlayer(j).getPieces()
+        if a in pieces:
+          i = pieces.index(a)
+          pieces[i] = b
