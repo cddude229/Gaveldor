@@ -15,9 +15,18 @@ class Archer(Piece):
 
         if abs(self.x-piece.x) + abs(self.y-piece.y) == 2:
             # Only one spot away, use old algo...
-            if self.direction == piece.direction \
-            or (self.direction+1)%6 == piece.direction \
-            or (self.direction-1)%6 == piece.direction:
+            ret = [ # Static list is easy.  Keep this sorted in order by direction
+                (self.x, self.y-2),   # 0
+                (self.x+1, self.y-1), # 1
+                (self.x+1, self.y+1), # 2
+                (self.x, self.y+2),   # 3
+                (self.x-1, self.y+1), # 4
+                (self.x-1, self.y-1)  # 5
+            ]
+            attackDir = ret.index((piece.x, piece.y))
+            if attackDir == piece.direction \
+            or (attackDir+1)%6 == piece.direction \
+            or (attackDir-1)%6 == piece.direction:
                 power *= 2
         else:
             # attacking two spots away
@@ -44,9 +53,20 @@ class Archer(Piece):
             # Now that we have the angle, if divisble by two, it's 0,1,2,3,4,5 (on the normal clock)
             # so, that means use the old system again
             if angle % 2 == 0:
-                if self.direction == piece.direction \
-                or (self.direction+1)%6 == piece.direction \
-                or (self.direction-1)%6 == piece.direction:
+                # first, calculate attack dir.
+                # Then, if attack dir is within one of piece's dir, back attack
+                ret = [ # Static list is easy.  Keep this sorted in order by direction
+                    (self.x, self.y-2),   # 0
+                    (self.x+1, self.y-1), # 1
+                    (self.x+1, self.y+1), # 2
+                    (self.x, self.y+2),   # 3
+                    (self.x-1, self.y+1), # 4
+                    (self.x-1, self.y-1)  # 5
+                ]
+                attackDir = ret.index((piece.x, piece.y))
+                if attackDir == piece.direction \
+                or (attackDir+1)%6 == piece.direction \
+                or (attackDir-1)%6 == piece.direction:
                     power *= 2
             else :
                 # On a half angle... get the piece's back spots.
